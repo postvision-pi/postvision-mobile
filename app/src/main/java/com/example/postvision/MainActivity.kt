@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AppNavigation()
+                    WrapperStatystics()
                 }
             }
         }
@@ -51,7 +51,7 @@ fun AppNavigation() {
 
     NavHost(
         navController = navController,
-        startDestination = NavRoutes.LOGIN,
+        startDestination = NavRoutes.STATYSTICS,
         modifier = Modifier.fillMaxSize(),
         /*exitTransition = slideInHorizontally(
             initialOffsetX = { fullWidth -> fullWidth},
@@ -95,6 +95,10 @@ fun AppNavigation() {
 
         composable(NavRoutes.CAMERA_SCREEN) {
             CameraScreen().CameraScreenContent(viewModel = mainViewModel)
+        }
+
+        composable(NavRoutes.STATYSTICS) {
+
         }
     }
 }
