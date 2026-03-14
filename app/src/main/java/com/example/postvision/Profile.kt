@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -104,6 +105,13 @@ fun WrapperProfile(){
                             ,
                         colors = IconButtonDefaults.iconButtonColors(containerColor = MaterialTheme.colorScheme.background)
                     ){
+
+                        Image(
+                            painter = painterResource(R.drawable.cam_graph),
+                            contentDescription = "Image from cam graph"
+                        )
+
+
                         Text(
                             text = "Minhas Atividades"
                         )

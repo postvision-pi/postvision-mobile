@@ -178,6 +178,7 @@ fun WrapperStatystics() {
                         modifier = Modifier
                             .verticalScroll(scrollState)
                             .padding(top = 5.dp)
+                            .height(609.dp)
                     ) {
                         Card(modifier = Modifier
                             .fillMaxWidth()
