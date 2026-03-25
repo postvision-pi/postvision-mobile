@@ -1,7 +1,9 @@
 package com.example.postvision
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -24,6 +26,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -96,28 +99,26 @@ fun WrapperProfile(){
                         fontSize = 14.sp
                     )
                 }
-                Column(modifier = Modifier.padding(top = 30.dp)) {
-                    IconButton(
-                        onClick = {},
-                        modifier = Modifier
-                            .width(345.dp)
-                            .height(57.dp)
-                            ,
-                        colors = IconButtonDefaults.iconButtonColors(containerColor = MaterialTheme.colorScheme.background)
-                    ){
+                Row(
+                    modifier = Modifier
+                        .padding(top = 30.dp)
+                        .width(345.dp)
+                        .height(57.dp)
+                        .background(
+                            color = MaterialTheme.colorScheme.background,
+                            shape = RoundedCornerShape(10.dp)
+                        ),
 
-                        Image(
-                            painter = painterResource(R.drawable.cam_graph),
-                            contentDescription = "Image from cam graph"
-                        )
+                ) {
+                    Text(
+                        text = "Minhas Atividades"
+                    )
+                    Image(
+                        painter = painterResource(R.drawable.recent_graph),
+                        contentDescription = "Image from cam graph"
+                    )
 
-
-                        Text(
-                            text = "Minhas Atividades"
-                        )
-
-                        }
-                    }
+                }
                 }
             }
         }
