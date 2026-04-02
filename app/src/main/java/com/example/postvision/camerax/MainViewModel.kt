@@ -9,7 +9,10 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.google.mediapipe.tasks.vision.core.RunningMode
 import androidx.camera.core.CameraSelector // IMPORT NECESSÁRIO
-
+import com.google.mediapipe.tasks.components.containers.NormalizedLandmark
+import kotlin.math.abs
+import kotlin.math.atan2
+import android.util.Log
 /**
  * ViewModel para manejar la lógica de la aplicación, incluyendo la configuración del PoseLandmarker
  * y el estado de la pantalla de galería.
@@ -74,5 +77,57 @@ class MainViewModel : ViewModel() {
             currentDelegate = currentDelegate,
             currentModel = currentModel
         )
+    }
+
+    // FUNCIONALIDADE DE IDENTIFCAR
+    var squatCount by mutableIntStateOf(0)
+        private set
+
+    private var isSquatting = false // Trava para não contar múltiplas vezes no mesmo movimento
+
+    fun processPose(landmarks: List<NormalizedLandmark>) {
+        // Log para confirmar que a função está sendo executada
+        Log.d("PI_MONITOR", "--- Nova captura recebida ---")
+
+        if (landmarks.size < 29) {
+            Log.e("PI_MONITOR", "Erro: Pontos insuficientes (precisamos até o 28).")
+            return
+        }
+
+        try {
+            // Ponto 24: Quadril, 26: Joelho, 28: Tornozelo
+            val angle = calculateAngle(landmarks[24], landmarks[26], landmarks[28])
+
+            // Monitoramento em tempo real no Logcat
+            Log.i("PI_MONITOR", "ANGULO: ${angle.toInt()} | STATUS: ${if(isSquatting) "Agachado" else "Em pé"} | TOTAL: $squatCount")
+
+            if (angle < 105.0) {
+                if (!isSquatting) Log.v("PI_MONITOR", "Evento: Detectou descida")
+                isSquatting = true
+            } else if (isSquatting && angle > 160.0) {
+                squatCount++
+                isSquatting = false
+                Log.v("PI_MONITOR", "Evento: Repetição completa!")
+            }
+        } catch (e: Exception) {
+            Log.e("PI_MONITOR", "Falha ao processar movimento: ${e.message}")
+        }
+    }
+
+    private fun calculateAngle(
+        p1: com.google.mediapipe.tasks.components.containers.NormalizedLandmark,
+        p2: com.google.mediapipe.tasks.components.containers.NormalizedLandmark,
+        p3: com.google.mediapipe.tasks.components.containers.NormalizedLandmark
+    ): Double {
+        return try {
+            val radians = atan2((p3.y() - p2.y()).toDouble(), (p3.x() - p2.x()).toDouble()) -
+                    atan2((p1.y() - p2.y()).toDouble(), (p1.x() - p2.x()).toDouble())
+            var angle = abs(radians * 180.0 / Math.PI)
+            if (angle > 180.0) angle = 360.0 - angle
+            angle
+        } catch (e: Exception) {
+            Log.e("SquatDetection", "Erro no cálculo do ângulo: ${e.message}")
+            0.0
+        }
     }
 }

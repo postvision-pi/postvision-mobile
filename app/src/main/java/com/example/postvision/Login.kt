@@ -44,7 +44,7 @@ fun WrapperLogin(
 ){
     var text by remember { mutableStateOf("") }
 
-    PostVisionTheme() {
+    PostVisionTheme {
         Surface(modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight(),

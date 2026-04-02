@@ -52,7 +52,7 @@ import com.example.postvision.ui.theme.Raleway
 fun WrapperProfile(){
     val scrollState = rememberScrollState()
 
-    PostVisionTheme() {
+    PostVisionTheme {
         Surface(
             modifier = Modifier
                 .fillMaxWidth()

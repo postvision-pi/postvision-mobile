@@ -105,6 +105,16 @@ class CameraScreen {
                         }
 
                         override fun onResults(resultBundle: PoseLandmarkerHelper.ResultBundle) {
+                            // --- ADICIONE ESTE BLOCO ABAIXO ---
+                            val landmarks = resultBundle.results.firstOrNull()?.landmarks()?.firstOrNull()
+                            if (landmarks != null) {
+                                // Envia os pontos para o cérebro do app (ViewModel)
+                                viewModel.processPose(landmarks)
+                            } else {
+                                // Caso a câmera não veja ninguém, avisa no console
+                                Log.w("PI_MONITOR", "Aviso: Nenhum corpo detectado no campo de visão.")
+                            }
+                            // ----------------------------------
                             coroutineScope.launch {
                                 poseResults = resultBundle
                             }
@@ -147,7 +157,8 @@ class CameraScreen {
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(start = 16.dp, bottom = 16.dp),
-                        verticalAlignment = Alignment.Bottom
+                        verticalAlignment = Alignment.Bottom,
+                        horizontalArrangement = Arrangement.SpaceBetween
                     ){
                         Text(
                             "Câmera",
@@ -155,7 +166,17 @@ class CameraScreen {
                             fontSize = 18.sp,
                             fontWeight = FontWeight.SemiBold
                         )
+                        Text(
+                            modifier = Modifier
+                                .padding(end = 18.dp),
+                            text = "SQUATS: ${viewModel.squatCount}",
+                            fontFamily = Raleway,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
                     }
+
+
                 }
 
                 // Card Inferior com botões

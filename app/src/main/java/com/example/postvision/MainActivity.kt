@@ -5,20 +5,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.example.postvision.camerax.CameraScreen
 import com.example.postvision.camerax.MainViewModel
 import com.example.postvision.navigation.NavRoutes
@@ -35,7 +30,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    WrapperStatystics()
+                    AppNavigation()
                 }
             }
         }
@@ -51,7 +46,7 @@ fun AppNavigation() {
 
     NavHost(
         navController = navController,
-        startDestination = NavRoutes.STATYSTICS,
+        startDestination = NavRoutes.HOME,
         modifier = Modifier.fillMaxSize(),
         /*exitTransition = slideInHorizontally(
             initialOffsetX = { fullWidth -> fullWidth},
