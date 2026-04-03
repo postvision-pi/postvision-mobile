@@ -149,8 +149,25 @@ fun WrapperProfile(){
                         )
 
                     ){
-                        Row(){
+                        Row(
+                            modifier = Modifier
+                                .padding(top = 20.dp, start = 18.dp)
+                        ){
+                            Card(
 
+                            ) {
+                               /* Image(
+                                    contentDescription = "Image from profile icon",
+                                )*/
+                                Column() {
+                                    Text(
+                                        text = "Nome"
+                                    )
+                                    Text(
+                                        text = "Carlos"
+                                    )
+                                }
+                            }
                         }
                     }
                 }
