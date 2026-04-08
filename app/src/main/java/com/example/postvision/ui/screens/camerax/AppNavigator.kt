@@ -1,11 +1,10 @@
-package com.example.postvision.camerax
+package com.example.postvision.ui.screens.camerax
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.navigation.compose.*
 import com.example.postvision.R // Necessário para R.drawable.ic_menu_camera
 

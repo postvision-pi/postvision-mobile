@@ -1,6 +1,7 @@
-package com.example.postvision.camerax
+package com.example.postvision.ui.screens.camerax
 
 import android.Manifest
+import android.content.pm.PackageManager
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -21,8 +22,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 // IMPORT DO ÍCONE DE INVERSÃO
 import androidx.compose.material.icons.filled.Cached
-import androidx.compose.material.icons.filled.FiberManualRecord
-import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -45,7 +44,6 @@ import androidx.core.content.ContextCompat
 import com.example.postvision.R
 import com.example.postvision.ui.theme.Raleway
 import com.google.mediapipe.tasks.vision.core.RunningMode
-import com.google.mediapipe.tasks.vision.poselandmarker.PoseLandmarkerResult
 import kotlinx.coroutines.launch // Import necessário para o coroutineScope.launch
 import java.util.concurrent.Executors
 
@@ -56,7 +54,7 @@ class CameraScreen {
     fun CameraScreenContent(viewModel: MainViewModel) {
         val context = LocalContext.current
         var hasPermission by remember {
-            mutableStateOf(ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == android.content.pm.PackageManager.PERMISSION_GRANTED)
+            mutableStateOf(ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)
         }
 
         val permissionLauncher = rememberLauncherForActivityResult(

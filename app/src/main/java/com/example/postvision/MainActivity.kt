@@ -14,9 +14,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.postvision.camerax.CameraScreen
-import com.example.postvision.camerax.MainViewModel
-import com.example.postvision.navigation.NavRoutes
+import com.example.postvision.ui.screens.camerax.CameraScreen
+import com.example.postvision.ui.screens.camerax.MainViewModel
+import com.example.postvision.ui.navigation.NavRoutes
+import com.example.postvision.ui.screens.WrapperChooseExercise
+import com.example.postvision.ui.screens.WrapperHome
+import com.example.postvision.ui.screens.WrapperLogin
+import com.example.postvision.ui.screens.WrapperStepByStep
 import com.example.postvision.ui.theme.PostVisionTheme
 
 
@@ -37,63 +41,3 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun AppNavigation() {
-
-    val navController = rememberNavController()
-
-    val mainViewModel: MainViewModel = viewModel()
-
-    NavHost(
-        navController = navController,
-        startDestination = NavRoutes.HOME,
-        modifier = Modifier.fillMaxSize(),
-        /*exitTransition = slideInHorizontally(
-            initialOffsetX = { fullWidth -> fullWidth},
-            animationSpec =
-        )*/
-    ) {
-
-        composable(NavRoutes.LOGIN) {
-            WrapperLogin(
-                onNavigateToHome = {
-                    navController.navigate(NavRoutes.HOME) {
-                        popUpTo(NavRoutes.LOGIN) { inclusive = true }
-                    }
-                }
-            )
-        }
-
-        composable(NavRoutes.HOME) {
-            WrapperHome(
-                onNavigateToChooseExercise = {
-                    navController.navigate(NavRoutes.CHOOSE_EXERCISE)
-                }
-            )
-        }
-
-        composable(NavRoutes.CHOOSE_EXERCISE) {
-            WrapperChooseExercise(
-                onNavigateToStepByStep = {
-                    navController.navigate(NavRoutes.STEP_BY_STEP)
-                }
-            )
-        }
-
-        composable(NavRoutes.STEP_BY_STEP) {
-            WrapperStepByStep(
-                onNavigateToCameraX = {
-                    navController.navigate(NavRoutes.CAMERA_SCREEN)
-                }
-            )
-        }
-
-        composable(NavRoutes.CAMERA_SCREEN) {
-            CameraScreen().CameraScreenContent(viewModel = mainViewModel)
-        }
-
-        composable(NavRoutes.STATYSTICS) {
-
-        }
-    }
-}

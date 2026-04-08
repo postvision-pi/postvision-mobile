@@ -100,4 +100,8 @@ dependencies {
     // Library MediaPipe
     implementation("com.google.mediapipe:tasks-vision:0.10.0")
 
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
 }

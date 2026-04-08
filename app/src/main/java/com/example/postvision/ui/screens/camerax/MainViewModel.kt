@@ -1,4 +1,4 @@
-package com.example.postvision.camerax
+package com.example.postvision.ui.screens.camerax
 
 import android.content.Context
 import androidx.compose.runtime.getValue
@@ -115,9 +115,9 @@ class MainViewModel : ViewModel() {
     }
 
     private fun calculateAngle(
-        p1: com.google.mediapipe.tasks.components.containers.NormalizedLandmark,
-        p2: com.google.mediapipe.tasks.components.containers.NormalizedLandmark,
-        p3: com.google.mediapipe.tasks.components.containers.NormalizedLandmark
+        p1: NormalizedLandmark,
+        p2: NormalizedLandmark,
+        p3: NormalizedLandmark
     ): Double {
         return try {
             val radians = atan2((p3.y() - p2.y()).toDouble(), (p3.x() - p2.x()).toDouble()) -

@@ -1,4 +1,4 @@
-package com.example.postvision
+package com.example.postvision.ui.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

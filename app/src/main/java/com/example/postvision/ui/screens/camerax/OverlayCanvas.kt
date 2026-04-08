@@ -1,4 +1,4 @@
-package com.example.postvision.camerax
+package com.example.postvision.ui.screens.camerax
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,7 +10,6 @@ import com.google.mediapipe.tasks.vision.core.RunningMode
 import com.google.mediapipe.tasks.vision.poselandmarker.PoseLandmarker
 import com.google.mediapipe.tasks.vision.poselandmarker.PoseLandmarkerResult
 import kotlin.math.max
-import kotlin.math.min
 
 /**
  * Desenha os resultados do PoseLandmarker sobre a visualização da câmera.

@@ -1,4 +1,4 @@
-package com.example.postvision
+package com.example.postvision.ui.screens
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -32,6 +32,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.postvision.MainViewModel
+import com.example.postvision.R
 import com.example.postvision.ui.theme.PostVisionTheme
 import com.example.postvision.ui.theme.Raleway
 
@@ -50,6 +53,7 @@ import com.example.postvision.ui.theme.Raleway
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun WrapperHome(
+    viewModel: MainViewModel,
     onNavigateToChooseExercise: () -> Unit
 ){
     PostVisionTheme{
@@ -96,7 +100,7 @@ fun WrapperHome(
 
                 ){
                     Text(
-                        "Olá Carlos",
+                        "Olá ${viewModel.loggedUser?.firstName ?: "Usuário"}",
                         fontFamily = Raleway,
                         color = MaterialTheme.colorScheme.surface
                     )
@@ -464,5 +468,9 @@ fun WrapperHome(
 @Preview
 @Composable
 fun MobilePreview(){
-    WrapperHome(onNavigateToChooseExercise = {})
+    val fakeViewModel: MainViewModel = viewModel()
+    WrapperHome(
+        viewModel = fakeViewModel,
+        onNavigateToChooseExercise = {}
+    )
 }

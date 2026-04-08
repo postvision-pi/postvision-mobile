@@ -1,6 +1,7 @@
-package com.example.postvision
+package com.example.postvision.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,8 +14,10 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -36,13 +39,19 @@ import com.example.postvision.ui.theme.Raleway
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.postvision.MainViewModel
+import com.example.postvision.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WrapperLogin(
+    viewModel: MainViewModel,
     onNavigateToHome: () -> Unit
 ){
-    var text by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
 
     PostVisionTheme {
         Surface(modifier = Modifier
@@ -96,31 +105,20 @@ fun WrapperLogin(
                         fontFamily = Raleway,
                         color = MaterialTheme.colorScheme.onSurface
                     )
-                    TextField(
+                    BasicTextField(
+                        value = email,
+                        onValueChange = { email = it },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(40.dp),
+                            .height(40.dp)
+                            .background(MaterialTheme.colorScheme.background, RoundedCornerShape(20.dp))
+                            .padding(horizontal = 20.dp, vertical = 12.dp), // Ajuste o texto manualmente
                         textStyle = TextStyle(
                             fontSize = 13.sp,
                             fontFamily = Raleway,
                             fontWeight = FontWeight.SemiBold,
-                        ),
-                        colors = TextFieldDefaults.colors(
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent,
-                            disabledIndicatorColor = Color.Transparent,
-                            errorIndicatorColor = Color.Transparent,
-
-                            focusedContainerColor = MaterialTheme.colorScheme.background,
-                            unfocusedContainerColor = MaterialTheme.colorScheme.background,
-                            disabledContainerColor = MaterialTheme.colorScheme.background,
-                            errorContainerColor = MaterialTheme.colorScheme.background
-
-
-                        ),
-                        value = text,
-                        onValueChange = { newText: String -> text = newText },
-                        shape = RoundedCornerShape(20.dp),
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
                     )
 
                 }
@@ -134,31 +132,20 @@ fun WrapperLogin(
                         fontFamily = Raleway,
                         color = MaterialTheme.colorScheme.onSurface
                     )
-                    TextField(
+                    BasicTextField(
+                        value = password,
+                        onValueChange = { password = it },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(40.dp),
+                            .height(40.dp)
+                            .background(MaterialTheme.colorScheme.background, RoundedCornerShape(20.dp))
+                            .padding(horizontal = 20.dp, vertical = 12.dp), // Ajuste o texto manualmente
                         textStyle = TextStyle(
                             fontSize = 13.sp,
                             fontFamily = Raleway,
                             fontWeight = FontWeight.SemiBold,
-                        ),
-                        colors = TextFieldDefaults.colors(
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent,
-                            disabledIndicatorColor = Color.Transparent,
-                            errorIndicatorColor = Color.Transparent,
-
-                            focusedContainerColor = MaterialTheme.colorScheme.background,
-                            unfocusedContainerColor = MaterialTheme.colorScheme.background,
-                            disabledContainerColor = MaterialTheme.colorScheme.background,
-                            errorContainerColor = MaterialTheme.colorScheme.background
-
-
-                        ),
-                        value = text,
-                        onValueChange = { newText: String -> text = newText },
-                        shape = RoundedCornerShape(20.dp),
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
                     )
 
                 }
@@ -167,22 +154,27 @@ fun WrapperLogin(
                     modifier = Modifier.offset(y = 151.dp)
                         .fillMaxWidth(),
                 ){
-                    Button(modifier = Modifier
-                        .width(345.dp)
-                        .height(51.dp)
-                        .align(Alignment.CenterHorizontally),
-                        onClick = onNavigateToHome,
+                    Button(
+                        modifier = Modifier
+                            .width(345.dp)
+                            .height(51.dp)
+                            .align(Alignment.CenterHorizontally),
+                        onClick = { viewModel.performLogin(email, password, onNavigateToHome) },
+                        enabled = !viewModel.isLoading,
                         shape = RoundedCornerShape(10.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
 
                         ) {
-                        Text(
-                            "Entrar",
-                            color = MaterialTheme.colorScheme.background,
-                            fontSize = 13.sp,
-                            fontFamily = Raleway,
-                            fontWeight = FontWeight.SemiBold
-                        )
+                        if(viewModel.isLoading)
+                            CircularProgressIndicator()
+                        else
+                            Text(
+                                "Entrar",
+                                color = MaterialTheme.colorScheme.background,
+                                fontSize = 13.sp,
+                                fontFamily = Raleway,
+                                fontWeight = FontWeight.SemiBold
+                            )
                     }
 
                     Row(modifier = Modifier
@@ -216,5 +208,9 @@ fun WrapperLogin(
 @Preview
 @Composable
 fun MobilePreviewLogin(){
-    WrapperLogin(onNavigateToHome = {})
+    val fakeViewModel: MainViewModel = viewModel()
+    WrapperLogin(
+        viewModel = fakeViewModel,
+        onNavigateToHome = {}
+    )
 }

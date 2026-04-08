@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.postvision.camerax
+package com.example.postvision.ui.screens.camerax
 
 import android.content.Context
 import android.graphics.Bitmap

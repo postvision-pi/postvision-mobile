@@ -1,4 +1,4 @@
-package com.example.postvision.camerax
+package com.example.postvision.ui.screens.camerax
 
 import android.annotation.SuppressLint
 import android.os.Bundle

@@ -1,4 +1,4 @@
-package com.example.postvision.navigation
+package com.example.postvision.ui.navigation
 
 // NavRoutes.kt
 
