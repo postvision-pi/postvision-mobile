@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.auth0.android.jwt.JWT
 import com.example.postvision.ui.model.User
 import com.example.postvision.ui.network.ApiService
 import com.example.postvision.ui.repository.UserRepository
@@ -35,9 +36,25 @@ class MainViewModel: ViewModel(){
             loginError = null
             try{
                 val response = repository.login(email, pass)
-                loggedUser = response.user
-                Log.d("LOGIN_TEST", response.toString()) // Verifique isso no Logcat
-                onNavigate()
+                if(response.token != null){
+                    val jwt = JWT(response.token)
+                    val idView = jwt.getClaim("_id").asString()
+                    val firstNameView = jwt.getClaim("fistName").asString()?: "Usuário"
+                    val lastNameView = jwt.getClaim("lastName").asString()?: ""
+
+                    loggedUser = User(
+                        id = idView,
+                        firstName = firstNameView,
+                        lastName = lastNameView,
+                        email = email,
+                        password = pass
+                    )
+
+
+
+                    Log.d("LOGIN_TEST", "${jwt.getClaim("firstName").asString()}") // Verifique isso no Logcat
+                    onNavigate()
+                }
             } catch (e: Exception){
                 loginError = "Erro: Usuário ou senha inválidos"
             } finally {
