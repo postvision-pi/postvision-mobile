@@ -3,6 +3,7 @@ package com.example.postvision.ui.model
 import com.google.gson.annotations.SerializedName
 
 data class User(
+    @SerializedName("_id")
     val id: String? = null,
     val firstName: String,
     val lastName: String,

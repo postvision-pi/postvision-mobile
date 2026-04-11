@@ -17,7 +17,8 @@ cameraView = "1.2.0-alpha02"
 navigationCompose = "2.9.3"
 tasksVision = "0.20230731"
 window = "1.4.0"
-navigationComposeJvmstubs = "2.9.3" # Embora não seja comum, foi mantido por estar na referência
+navigationComposeJvmstubs = "2.9.3"
+foundationLayout = "1.10.6" # Embora não seja comum, foi mantido por estar na referência
 
 [libraries]
 # --- Dependências CameraX Adicionadas (Usando a versão 'cameraView') ---
@@ -51,6 +52,7 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout", version.ref = "foundationLayout" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

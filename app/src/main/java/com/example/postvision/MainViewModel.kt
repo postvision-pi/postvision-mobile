@@ -35,13 +35,13 @@ class MainViewModel: ViewModel(){
             isLoading = true
             loginError = null
             try{
+
                 val response = repository.login(email, pass)
                 if(response.token != null){
                     val jwt = JWT(response.token)
-                    val idView = jwt.getClaim("_id").asString()
-                    val firstNameView = jwt.getClaim("fistName").asString()?: "Usuário"
-                    val lastNameView = jwt.getClaim("lastName").asString()?: ""
-
+                    val idView = jwt.getClaim("id_usuario").asString()
+                    val firstNameView = jwt.getClaim("nome_usuario").asString() ?: "Usuário"
+                    val lastNameView = jwt.getClaim("sobrenome_usuario").asString() ?: ""
                     loggedUser = User(
                         id = idView,
                         firstName = firstNameView,
@@ -52,7 +52,7 @@ class MainViewModel: ViewModel(){
 
 
 
-                    Log.d("LOGIN_TEST", "${jwt.getClaim("firstName").asString()}") // Verifique isso no Logcat
+                    Log.d("LOGIN_TEST", response.token) // Verifique isso no Logcat
                     onNavigate()
                 }
             } catch (e: Exception){

@@ -1,5 +1,6 @@
 package com.example.postvision.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -35,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.postvision.MainViewModel
 import com.example.postvision.R
+import com.example.postvision.ui.components.BottomNavBar
 import com.example.postvision.ui.theme.PostVisionTheme
 import com.example.postvision.ui.theme.Raleway
 
@@ -305,7 +307,6 @@ fun WrapperHome(
                         }
                     }
                 }
-
                 Card(modifier = Modifier
                     .fillMaxWidth()
                     .height(143.dp)
@@ -349,117 +350,10 @@ fun WrapperHome(
                         }
                     }
                 }
-
-                // BARRA DE NAVEGAÇÃO INFERIOR
-                Row(modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .offset(y = 15.dp)
-                    .width(180.dp),
-                    horizontalArrangement = Arrangement.SpaceAround
-                ){
-                    Card(modifier = Modifier
-                        .fillMaxWidth()
-                        .height(69.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.background
-                        ),
-                        shape = RoundedCornerShape(20.dp)
-                    ) {
-                        Row(modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceAround){
-
-                            Card(modifier = Modifier
-                                .width(50.dp)
-                                .height(57.dp),
-                                colors = CardDefaults.cardColors(
-                                    containerColor = Color(0x52DEDEFF)
-                                ),
-                                shape = RoundedCornerShape(14.dp)
-                            ){
-                                Column(modifier = Modifier
-                                    .fillMaxSize(),
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    ) {
-                                    Column(modifier = Modifier
-                                        .offset(y = 9.dp)){
-                                        Image(modifier = Modifier
-                                            .width(25.dp)
-                                            .height(27.dp),
-                                            painter = painterResource(R.drawable.home_graph),
-                                            contentDescription = "Image from cam graph")
-                                        Text(
-                                            "Início",
-                                            fontFamily = Raleway,
-                                            fontSize = 10.sp,
-                                            color = MaterialTheme.colorScheme.surface
-                                        )
-                                    }
-                                }
-                            }
-
-                            Card(modifier = Modifier
-                                .width(50.dp)
-                                .height(57.dp),
-                                colors = CardDefaults.cardColors(
-                                    containerColor = MaterialTheme.colorScheme.background
-                                )
-                            ){
-                                Column(modifier = Modifier
-                                    .fillMaxSize(),
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                ) {
-                                    Column(modifier = Modifier
-                                        .offset(y = 9.dp)){
-                                        Image(modifier = Modifier
-                                            .width(25.dp)
-                                            .height(27.dp),
-                                            painter = painterResource(R.drawable.stats_graph),
-                                            contentDescription = "Image from cam graph")
-                                        Text(
-                                            "Stats",
-                                            fontFamily = Raleway,
-                                            fontSize = 10.sp,
-                                            color = MaterialTheme.colorScheme.surface
-                                        )
-                                    }
-                                }
-                            }
-
-
-                            Card(modifier = Modifier
-                                .width(50.dp)
-                                .height(57.dp),
-                                colors = CardDefaults.cardColors(
-                                    containerColor = MaterialTheme.colorScheme.background
-                                )
-                            ){
-                                Column(modifier = Modifier
-                                    .fillMaxSize(),
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                ) {
-                                    Column(modifier = Modifier
-                                        .offset(y = 9.dp)){
-                                        Image(modifier = Modifier
-                                            .width(25.dp)
-                                            .height(27.dp),
-                                            painter = painterResource(R.drawable.profile_graph),
-                                            contentDescription = "Image from cam graph")
-                                        Text(
-                                            "Perfil",
-                                            fontFamily = Raleway,
-                                            fontSize = 10.sp,
-                                            color = MaterialTheme.colorScheme.surface
-                                        )
-                                    }
-                                }
-                            }
-
-                        }
-                    }
-                }
+                BottomNavBar(
+                    selectedRoute = "home",
+                    onNavigate = { route -> Log.d("LOG:NAV","Funcionando")}
+                )
             }
         }
     }
