@@ -8,6 +8,6 @@ object NavRoutes {
     const val CHOOSE_EXERCISE = "choose_exercise_screen"
     const val STEP_BY_STEP = "step_by_step_screen"
     const val CAMERA_SCREEN = "camera_screen"
-
     const val STATYSTICS = "statystics_screen"
+    const val PROFILE = "profile-screen"
 }

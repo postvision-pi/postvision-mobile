@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.postvision.R
@@ -34,7 +35,6 @@ fun BottomNavBar(
     // BARRA DE NAVEGAÇÃO INFERIOR
     Row(
         modifier = Modifier
-            .offset(y = 15.dp)
             .width(180.dp),
         horizontalArrangement = Arrangement.SpaceAround
     ) {
@@ -45,7 +45,6 @@ fun BottomNavBar(
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.background
             ),
-            shape = RoundedCornerShape(20.dp)
         ) {
             Row(
                 modifier = Modifier
@@ -54,60 +53,9 @@ fun BottomNavBar(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
-                Card(
-                    modifier = Modifier
-                        .width(50.dp)
-                        .height(57.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color(0x52DEDEFF)
-                    ),
-                    shape = RoundedCornerShape(14.dp)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-
-                        NavItem("Início", R.drawable.home_graph, selectedRoute == "home") { onNavigate("home") }
-                    }
-                }
-                Card(
-                    modifier = Modifier
-                        .width(50.dp)
-                        .height(57.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color(0x52DEDEFF)
-                    ),
-                    shape = RoundedCornerShape(14.dp)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-
-                        NavItem("Stats", R.drawable.stats_graph, selectedRoute == "stats") { onNavigate("stats") }
-                    }
-                }
-                Card(
-                    modifier = Modifier
-                        .width(50.dp)
-                        .height(57.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color(0x52DEDEFF)
-                    ),
-                    shape = RoundedCornerShape(14.dp)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-
-                        NavItem("Perfil", R.drawable.profile_graph, selectedRoute == "profile") { onNavigate("profile") }
-                    }
-                }
+                NavItem("Início", R.drawable.home_graph, selectedRoute == "home") { onNavigate("home") }
+                NavItem("Perfil", R.drawable.profile_graph, selectedRoute == "profile") { onNavigate("profile") }
+                NavItem("Stats", R.drawable.stats_graph, selectedRoute == "stats") { onNavigate("stats") }
             }
         }
     }
@@ -123,8 +71,8 @@ fun NavItem(
     androidx.compose.material3.IconButton(onClick = onClick) {
         Card(
             modifier = Modifier
-                .width(50.dp)
-                .height(57.dp),
+                .width(53.dp)
+                .height(60.dp),
             colors = CardDefaults.cardColors(containerColor = bgColor),
             shape = RoundedCornerShape(14.dp)
         ){
@@ -142,10 +90,18 @@ fun NavItem(
                     text = label,
                     fontFamily = Raleway,
                     fontSize = 10.sp,
-                    color = androidx.compose.material3.MaterialTheme.colorScheme.surface
+                    color = MaterialTheme.colorScheme.surface
                 )
             }
         }
     }
 }
 
+@Preview
+@Composable
+fun NavBarPreview(){
+    BottomNavBar(
+        selectedRoute = "",
+        onNavigate = {}
+    )
+}

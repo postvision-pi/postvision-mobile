@@ -19,6 +19,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,228 +31,257 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.postvision.R
+import com.example.postvision.ui.components.BottomNavBar
+import com.example.postvision.ui.navigation.NavRoutes
 import com.example.postvision.ui.theme.PostVisionTheme
 import com.example.postvision.ui.theme.Raleway
 
 @Composable
-fun WrapperStatystics() {
+fun WrapperStatystics(
+    onBottomTabClick: (String) -> Unit
+) {
     val scrollState = rememberScrollState()
 
     PostVisionTheme() {
         Surface(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(),
+
             color = MaterialTheme.colorScheme.onBackground
         )
         {
-            Column(modifier = Modifier
-                .padding(vertical = 22.dp, horizontal = 24.dp)
-                .fillMaxHeight()
-            )
-            {
-                FlowRow(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(52.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                )
-                {
-                    IconButton(onClick = {},
-                        modifier = Modifier
-                            .width(52.dp)
-                            .height(52.dp),
-                    ) {
-                        Image(
-                            painter = painterResource(R.drawable.imagem),
-                            contentDescription = "Imagem from profile"
-                        )
-                    }
-                    IconButton(onClick = {},
-                        modifier = Modifier
-                            .width(21.dp)
-                            .fillMaxHeight(),
-                    ){
-                        Image(
-                            painter = painterResource(R.drawable.notification_icon),
-                            contentDescription = "Imagem from profile"
-                        )
-                    }
-                }
-
-                // Corpo
-                Column(
-                    modifier = Modifier
-                        .padding(top = 9.dp)
-                        .fillMaxHeight()
-                        .fillMaxWidth()
-                ) {
-                    // Escolha
+            Scaffold(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
+                bottomBar = {
                     Row(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 22.dp),
-                        Arrangement.SpaceAround
+                            .fillMaxWidth(),
+
+                        horizontalArrangement = Arrangement.Center
                     ){
-                        Card(
-                            modifier = Modifier
-                                .height(30.dp)
-                                .width(79.dp),
-                            shape = RoundedCornerShape(10.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.background
-                            )
-
-                        ){
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxSize(),
-                                Arrangement.Center,
-                                Alignment.CenterVertically
-                            ) {
-                                Text(
-                                    text = "Todos",
-                                    fontFamily = Raleway,
-                                    fontWeight = FontWeight.Normal,
-                                    color = MaterialTheme.colorScheme.surface,
-                                    fontSize = 13.sp,
-                                )
+                        BottomNavBar(
+                            selectedRoute = "stats",
+                            onNavigate = { route ->
+                                if (route == "home") {
+                                    onBottomTabClick(NavRoutes.HOME) // Usa a rota de estatísticas
+                                } else if (route == "profile") {
+                                    // Se tiver uma rota de perfil, coloque aqui
+                                    onBottomTabClick(NavRoutes.PROFILE)
+                                }
                             }
+                        )
+                    }
+                },
+                containerColor = MaterialTheme.colorScheme.onBackground
+            ) { paddingValues ->
+                Column(modifier = Modifier
+                    .padding(vertical = 22.dp, horizontal = 24.dp)
+                    .padding(paddingValues)
+                    .fillMaxHeight()
+                )
+                {
+                    FlowRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(52.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                    )
+                    {
+                        IconButton(onClick = {},
+                            modifier = Modifier
+                                .width(52.dp)
+                                .height(52.dp),
+                        ) {
+                            Image(
+                                painter = painterResource(R.drawable.imagem),
+                                contentDescription = "Imagem from profile"
+                            )
                         }
-
-                        Card(
+                        IconButton(onClick = {},
                             modifier = Modifier
-                                .height(30.dp)
-                                .width(134.dp),
-                            shape = RoundedCornerShape(10.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.background
-                            )
-
+                                .width(21.dp)
+                                .fillMaxHeight(),
                         ){
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxSize(),
-                                Arrangement.Center,
-                                Alignment.CenterVertically
-                            ) {
-                                Text(
-                                    text = "Agachamento",
-                                    fontFamily = Raleway,
-                                    fontWeight = FontWeight.Normal,
-                                    color = MaterialTheme.colorScheme.surface,
-                                    fontSize = 13.sp,
-                                )
-                            }
-                        }
-                        Card(
-                            modifier = Modifier
-                                .height(30.dp)
-                                .width(79.dp),
-                            shape = RoundedCornerShape(10.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.background
+                            Image(
+                                painter = painterResource(R.drawable.notification_icon),
+                                contentDescription = "Imagem from profile"
                             )
-
-                        ){
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxSize(),
-                                Arrangement.Center,
-                                Alignment.CenterVertically
-                            ) {
-                                Text(
-                                    text = "Flexão",
-                                    fontFamily = Raleway,
-                                    fontWeight = FontWeight.Normal,
-                                    color = MaterialTheme.colorScheme.surface,
-                                    fontSize = 13.sp,
-                                )
-                            }
                         }
                     }
+
+                    // Corpo
                     Column(
                         modifier = Modifier
-                            .verticalScroll(scrollState)
-                            .padding(top = 5.dp)
-                            .fillMaxHeight(),
-
-                    ) {
-                        Card(modifier = Modifier
+                            .padding(top = 9.dp)
+                            .fillMaxHeight()
                             .fillMaxWidth()
-                            .height(143.dp)
-                            .padding(top = 13.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.background
-                            )) {
-                            Row(modifier = Modifier
-                                .width(265.dp)
-                                .height(95.63.dp)
-                                .align(Alignment.CenterHorizontally)
-                                .offset(y = 23.69.dp),
-                                horizontalArrangement = Arrangement.SpaceAround,
-                                verticalAlignment = Alignment.CenterVertically) {
-                                Image(
-                                    modifier = Modifier
-                                        .width(72.dp)
-                                        .height(95.63.dp),
-                                    painter = painterResource(R.drawable.streak_graph),
-                                    contentDescription = "Image from streak graph"
+                    ) {
+                        // Escolha
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 22.dp),
+                            Arrangement.SpaceAround
+                        ){
+                            Card(
+                                modifier = Modifier
+                                    .height(30.dp)
+                                    .width(79.dp),
+                                shape = RoundedCornerShape(10.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.background
                                 )
-                                Column(modifier = Modifier
-                                    .fillMaxHeight()
-                                    .padding(start = 30.dp),
-                                    verticalArrangement = Arrangement.Center
+
+                            ){
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxSize(),
+                                    Arrangement.Center,
+                                    Alignment.CenterVertically
                                 ) {
                                     Text(
-                                        "Streak",
+                                        text = "Todos",
                                         fontFamily = Raleway,
-                                        fontSize = 28.sp,
+                                        fontWeight = FontWeight.Normal,
                                         color = MaterialTheme.colorScheme.surface,
-                                        fontWeight = FontWeight.Bold
-                                    )
-
-                                    Text(
-                                        "Realize as análises para aumentar seu streak",
-                                        fontFamily = Raleway,
                                         fontSize = 13.sp,
+                                    )
+                                }
+                            }
+
+                            Card(
+                                modifier = Modifier
+                                    .height(30.dp)
+                                    .width(134.dp),
+                                shape = RoundedCornerShape(10.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.background
+                                )
+
+                            ){
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxSize(),
+                                    Arrangement.Center,
+                                    Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = "Agachamento",
+                                        fontFamily = Raleway,
+                                        fontWeight = FontWeight.Normal,
                                         color = MaterialTheme.colorScheme.surface,
+                                        fontSize = 13.sp,
+                                    )
+                                }
+                            }
+                            Card(
+                                modifier = Modifier
+                                    .height(30.dp)
+                                    .width(79.dp),
+                                shape = RoundedCornerShape(10.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.background
+                                )
+
+                            ){
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxSize(),
+                                    Arrangement.Center,
+                                    Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = "Flexão",
+                                        fontFamily = Raleway,
+                                        fontWeight = FontWeight.Normal,
+                                        color = MaterialTheme.colorScheme.surface,
+                                        fontSize = 13.sp,
                                     )
                                 }
                             }
                         }
-                        Card(modifier = Modifier
-                            .fillMaxWidth()
-                            .height(270.dp)
-                            .padding(top = 13.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.background
-                            )) {
+                        Column(
+                            modifier = Modifier
+                                .verticalScroll(scrollState)
+                                .padding(top = 5.dp)
+                        ) {
+                            Card(modifier = Modifier
+                                .fillMaxWidth()
+                                .height(143.dp)
+                                .padding(top = 13.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.background
+                                )) {
+                                Row(modifier = Modifier
+                                    .width(265.dp)
+                                    .height(95.63.dp)
+                                    .align(Alignment.CenterHorizontally)
+                                    .offset(y = 23.69.dp),
+                                    horizontalArrangement = Arrangement.SpaceAround,
+                                    verticalAlignment = Alignment.CenterVertically) {
+                                    Image(
+                                        modifier = Modifier
+                                            .width(72.dp)
+                                            .height(95.63.dp),
+                                        painter = painterResource(R.drawable.streak_graph),
+                                        contentDescription = "Image from streak graph"
+                                    )
+                                    Column(modifier = Modifier
+                                        .fillMaxHeight()
+                                        .padding(start = 30.dp),
+                                        verticalArrangement = Arrangement.Center
+                                    ) {
+                                        Text(
+                                            "Streak",
+                                            fontFamily = Raleway,
+                                            fontSize = 28.sp,
+                                            color = MaterialTheme.colorScheme.surface,
+                                            fontWeight = FontWeight.Bold
+                                        )
 
+                                        Text(
+                                            "Realize as análises para aumentar seu streak",
+                                            fontFamily = Raleway,
+                                            fontSize = 13.sp,
+                                            color = MaterialTheme.colorScheme.surface,
+                                        )
+                                    }
+                                }
+                            }
+                            Card(modifier = Modifier
+                                .fillMaxWidth()
+                                .height(270.dp)
+                                .padding(top = 13.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.background
+                                )) {
+
+                            }
+
+                            Card(modifier = Modifier
+                                .fillMaxWidth()
+                                .height(270.dp)
+                                .padding(top = 13.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.background
+                                )) {
+
+                            }
+
+                            Card(modifier = Modifier
+                                .fillMaxWidth()
+                                .height(270.dp)
+                                .padding(top = 13.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.background
+                                )) {
+
+                            }
                         }
 
-                        Card(modifier = Modifier
-                            .fillMaxWidth()
-                            .height(270.dp)
-                            .padding(top = 13.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.background
-                            )) {
-
-                        }
-
-                        Card(modifier = Modifier
-                            .fillMaxWidth()
-                            .height(270.dp)
-                            .padding(top = 13.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.background
-                            )) {
-
-                        }
                     }
-                }
 
+                }
             }
         }
     }
@@ -260,5 +290,7 @@ fun WrapperStatystics() {
 @Preview
 @Composable
 fun MobilePreviewStatystics(){
-    WrapperStatystics()
+    WrapperStatystics(
+        onBottomTabClick = {}
+    )
 }

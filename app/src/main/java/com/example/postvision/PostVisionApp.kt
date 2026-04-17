@@ -14,6 +14,8 @@ import com.example.postvision.ui.screens.WrapperLogin
 import com.example.postvision.ui.screens.WrapperStepByStep
 import com.example.postvision.ui.screens.camerax.CameraScreen
 import com.example.postvision.MainViewModel
+import com.example.postvision.ui.screens.WrapperProfile
+import com.example.postvision.ui.screens.WrapperStatystics
 import com.example.postvision.ui.screens.camerax.MainViewModel as CameraViewModel
 
 
@@ -48,6 +50,12 @@ fun AppNavigation(mainViewModel: MainViewModel = viewModel()) {
                 viewModel = mainViewModel,
                 onNavigateToChooseExercise = {
                     navController.navigate(NavRoutes.CHOOSE_EXERCISE)
+                },
+                onBottomTabClick = { route ->
+                        navController.navigate(route) {
+                            launchSingleTop = true
+                            restoreState = true
+                        }
                 }
             )
         }
@@ -74,7 +82,18 @@ fun AppNavigation(mainViewModel: MainViewModel = viewModel()) {
         }
 
         composable(NavRoutes.STATYSTICS) {
+            WrapperStatystics(
+                onBottomTabClick = { route ->
+                    navController.navigate(route) {
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
+            )
+        }
 
+        composable(NavRoutes.PROFILE) {
+            WrapperProfile()
         }
     }
 }

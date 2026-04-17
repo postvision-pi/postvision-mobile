@@ -37,6 +37,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.postvision.MainViewModel
 import com.example.postvision.R
 import com.example.postvision.ui.components.BottomNavBar
+import com.example.postvision.ui.navigation.NavRoutes
 import com.example.postvision.ui.theme.PostVisionTheme
 import com.example.postvision.ui.theme.Raleway
 
@@ -56,7 +57,8 @@ import com.example.postvision.ui.theme.Raleway
 @Composable
 fun WrapperHome(
     viewModel: MainViewModel,
-    onNavigateToChooseExercise: () -> Unit
+    onNavigateToChooseExercise: () -> Unit,
+    onBottomTabClick: (String) -> Unit
 ){
     PostVisionTheme{
         Surface(modifier = Modifier
@@ -350,10 +352,23 @@ fun WrapperHome(
                         }
                     }
                 }
-                BottomNavBar(
-                    selectedRoute = "home",
-                    onNavigate = { route -> Log.d("LOG:NAV","Funcionando")}
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ){
+                    BottomNavBar(
+                        selectedRoute = "home",
+                        onNavigate = { route ->
+                            if (route == "stats") {
+                                onBottomTabClick(NavRoutes.STATYSTICS) // Usa a rota de estatísticas
+                            } else if (route == "profile") {
+                                // Se tiver uma rota de perfil, coloque aqui
+                                // onBottomTabClick(NavRoutes.PROFILE)
+                            }
+                        }
+                    )
+                }
             }
         }
     }
@@ -365,6 +380,7 @@ fun MobilePreview(){
     val fakeViewModel: MainViewModel = viewModel()
     WrapperHome(
         viewModel = fakeViewModel,
-        onNavigateToChooseExercise = {}
+        onNavigateToChooseExercise = {},
+        onBottomTabClick = {_ ->}
     )
 }
