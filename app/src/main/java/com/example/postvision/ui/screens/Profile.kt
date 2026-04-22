@@ -136,22 +136,33 @@ fun WrapperProfile(){
                         Row(
                             modifier = Modifier
                                 .padding(top = 20.dp, start = 18.dp)
+                                .fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically
                         ){
-                            Card(
-
-                            ) {
-                               /* Image(
+                               Image(
+                                   modifier = Modifier
+                                       .size(24.dp),
                                     contentDescription = "Image from profile icon",
-                                )*/
-                                Column() {
+                                    painter = painterResource(R.drawable.profile_icon),
+                                )
+                                Column(
+                                    modifier = Modifier
+                                        .padding(start = 15.dp)
+                                ) {
                                     Text(
-                                        text = "Nome"
+                                        text = "Nome",
+                                        fontSize = 13.sp,
+                                        fontFamily = Raleway,
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = MaterialTheme.colorScheme.onSurface
                                     )
                                     Text(
-                                        text = "Carlos"
+                                        text = "Carlos",
+                                        fontSize = 13.sp,
+                                        fontFamily = Raleway,
+                                        color = MaterialTheme.colorScheme.onSurface
                                     )
                                 }
-                            }
                         }
                     }
                 }
