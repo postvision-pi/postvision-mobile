@@ -44,7 +44,6 @@ fun WrapperStatystics(
 
     PostVisionTheme() {
         Surface(
-
             color = MaterialTheme.colorScheme.onBackground
         )
         {
@@ -56,7 +55,6 @@ fun WrapperStatystics(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth(),
-
                         horizontalArrangement = Arrangement.Center
                     ){
                         BottomNavBar(

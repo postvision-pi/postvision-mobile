@@ -26,7 +26,7 @@ fun AppNavigation(mainViewModel: MainViewModel = viewModel()) {
 
     NavHost(
         navController = navController,
-        startDestination = NavRoutes.LOGIN,
+        startDestination = NavRoutes.HOME,
         modifier = Modifier.fillMaxSize(),
         /*exitTransition = slideInHorizontally(
             initialOffsetX = { fullWidth -> fullWidth},
@@ -93,7 +93,14 @@ fun AppNavigation(mainViewModel: MainViewModel = viewModel()) {
         }
 
         composable(NavRoutes.PROFILE) {
-            WrapperProfile()
+            WrapperProfile(
+                onBottomTabClick = { route ->
+                    navController.navigate(route) {
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
+            )
         }
     }
 }

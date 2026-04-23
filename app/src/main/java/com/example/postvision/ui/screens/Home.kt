@@ -1,5 +1,6 @@
 package com.example.postvision.ui.screens
 
+import android.health.connect.datatypes.Device
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -30,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -354,7 +356,8 @@ fun WrapperHome(
                 }
                 Row(
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .padding(top = 20.dp),
                     horizontalArrangement = Arrangement.Center
                 ){
                     BottomNavBar(
@@ -363,8 +366,7 @@ fun WrapperHome(
                             if (route == "stats") {
                                 onBottomTabClick(NavRoutes.STATYSTICS) // Usa a rota de estatísticas
                             } else if (route == "profile") {
-                                // Se tiver uma rota de perfil, coloque aqui
-                                // onBottomTabClick(NavRoutes.PROFILE)
+                                onBottomTabClick(NavRoutes.PROFILE)
                             }
                         }
                     )
@@ -374,7 +376,10 @@ fun WrapperHome(
     }
 }
 
-@Preview
+@Preview(
+    widthDp = 360,
+    heightDp = 853
+)
 @Composable
 fun MobilePreview(){
     val fakeViewModel: MainViewModel = viewModel()
