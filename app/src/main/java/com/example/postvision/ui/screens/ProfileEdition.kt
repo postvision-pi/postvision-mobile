@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -25,9 +26,11 @@ import androidx.compose.ui.unit.sp
 import com.example.postvision.R
 import com.example.postvision.ui.theme.PostVisionTheme
 import com.example.postvision.ui.theme.Raleway
+import androidx.compose.foundation.rememberScrollState
 
 @Composable
 fun WrapperProfileEdtion(){
+    val scrollState = rememberScrollState()
     PostVisionTheme {
         Surface(
             modifier = Modifier
@@ -92,6 +95,15 @@ fun WrapperProfileEdtion(){
                         fontFamily = Raleway,
                         fontSize = 14.sp
                     )
+                }
+
+                Column(
+                    modifier = Modifier
+                        .verticalScroll(scrollState)
+                        .width(20.dp)
+                    ,
+                ) {
+
                 }
             }
         }
