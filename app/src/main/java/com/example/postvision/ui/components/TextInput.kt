@@ -28,6 +28,7 @@ fun TextInputComponent(
 ){
     Column(modifier = Modifier
         .fillMaxWidth()
+        .padding(top = 10.dp)
     ){
         Text(
             text = text,
