@@ -2,12 +2,14 @@ package com.example.postvision.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -29,11 +31,13 @@ import com.example.postvision.ui.theme.PostVisionTheme
 import com.example.postvision.ui.theme.Raleway
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Button
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.graphicsLayer
 import com.example.postvision.ui.components.BottomNavBar
 import com.example.postvision.ui.components.TextInputComponent
 import com.example.postvision.ui.navigation.NavRoutes
@@ -58,27 +62,37 @@ fun WrapperProfileEdtion(){
                 .fillMaxWidth()
                 .fillMaxHeight(),
             bottomBar = {
-                Button(modifier = Modifier
-                    .fillMaxWidth()
-                    .height(51.dp),
-                    onClick = {},
-                    shape = RoundedCornerShape(10.dp)
-                ) {
-                    Text(
-                        "Iniciar Passo a Passo",
-                        color = MaterialTheme.colorScheme.background,
-                        fontSize = 13.sp,
-                        fontFamily = Raleway,
-                        fontWeight = FontWeight.SemiBold
-                    )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ){
+                    Button(modifier = Modifier
+                        .width(364.dp)
+                        .height(51.dp)
+                        .offset(y = -36.dp)
+                        .align(Alignment.Center),
+                        onClick = {},
+                        shape = RoundedCornerShape(10.dp)
+
+
+                    ) {
+                        Text(
+                            "Salvar",
+                            color = MaterialTheme.colorScheme.background,
+                            fontSize = 13.sp,
+                            fontFamily = Raleway,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
                 }
             },
-            containerColor = MaterialTheme.colorScheme.onBackground
+            containerColor = MaterialTheme.colorScheme.onBackground,
+
         ){paddingValues ->
         Column(
                 modifier = Modifier
-                    .padding(vertical = 22.dp, horizontal = 24.dp)
                     .padding(paddingValues)
+                    .padding(vertical = 22.dp, horizontal = 24.dp)
                     .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -119,7 +133,6 @@ fun WrapperProfileEdtion(){
                 Column(
                     modifier = Modifier
                         .verticalScroll(scrollState)
-                        .width(345.dp),
                 ) {
                     TextInputComponent(text = "Nome", value= nome, onValueChange = {nome})
                     TextInputComponent(text = "Sobrenome", value= sobrenome, onValueChange = {sobrenome})
@@ -130,7 +143,6 @@ fun WrapperProfileEdtion(){
                     TextInputComponent(text = "RG", value= rg, onValueChange = {rg})
                     TextInputComponent(text = "Data de Nascimento", value= datanasc, onValueChange = {datanasc})
                     TextInputComponent(text = "Senha", value= senha, onValueChange = {senha})
-
                 }
             }
 
