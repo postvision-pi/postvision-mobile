@@ -13,6 +13,11 @@ import com.google.mediapipe.tasks.components.containers.NormalizedLandmark
 import kotlin.math.abs
 import kotlin.math.atan2
 import android.util.Log
+import androidx.compose.ui.geometry.Offset
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
 /**
  * ViewModel para manejar la lógica de la aplicación, incluyendo la configuración del PoseLandmarker
  * y el estado de la pantalla de galería.
@@ -82,9 +87,27 @@ class MainViewModel : ViewModel() {
     // FUNCIONALIDADE DE IDENTIFCAR
     var squatCount by mutableIntStateOf(0)
         private set
-
     private var isSquatting = false // Trava para não contar múltiplas vezes no mesmo movimento
 
+    var isRecording by mutableStateOf(false)
+    var countDownTime by mutableStateOf(0)
+
+    var exerciceStage by mutableStateOf(0)
+
+    var hasError by mutableStateOf(false)
+    var errorLocation by mutableStateOf<Offset?>(null)
+
+    fun startAnalysis(){
+        viewModelScope.launch {
+            countDownTime = 10
+            while (countDownTime > 0){
+                delay(1000)
+                countDownTime --
+            }
+            isRecording = true
+        }
+    }
+    // Faltou continuar o process
     fun processPose(landmarks: List<NormalizedLandmark>) {
         // Log para confirmar que a função está sendo executada
         Log.d("PI_MONITOR", "--- Nova captura recebida ---")

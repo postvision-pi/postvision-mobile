@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -81,12 +82,12 @@ fun WrapperSettigs(){
                     modifier = Modifier
                         .width(345.dp)
                         .height(468.dp)
-                        .padding(top = 52.dp)
+                        .padding(top = 52.dp),
+                    verticalArrangement = Arrangement.SpaceAround
                 ) {
                     Column(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(0.25f)
+                            .weight(1f)
                     ) {
                         Text(
                             "Acessibilidade",
@@ -96,61 +97,122 @@ fun WrapperSettigs(){
                         )
 
                         Row(
-                            
+                            modifier = Modifier
+                                .padding(top = 10.dp)
                         ){
                             Text(
-                                "Acessibilidade",
+                                "Alterar tema",
                                 fontSize = 16.sp,
                                 fontFamily = Raleway,
-                                fontWeight = FontWeight.SemiBold
+                            )
+                        }
+                        Row(
+
+                        ){
+                            Text(
+                                "Tamanho da fonte",
+                                fontSize = 16.sp,
+                                fontFamily = Raleway,
+                            )
+                        }
+                        Row(
+
+                        ){
+                            Text(
+                                "Idioma",
+                                fontSize = 16.sp,
+                                fontFamily = Raleway,
                             )
                         }
                     }
 
                     Column(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(0.25f)
+                            .weight(1f)
                     ) {
                         Text(
-                            "Acessibilidade",
+                            "Privacidade e Dados",
                             fontSize = 24.sp,
                             fontFamily = Raleway,
                             fontWeight = FontWeight.SemiBold
                         )
 
                         Row(
+                            modifier = Modifier
+                                .padding(top = 10.dp)
+                        ){
+                            Text(
+                                "Histórico de análises realizadas",
+                                fontSize = 16.sp,
+                                fontFamily = Raleway,
+                            )
+                        }
+                        Row(
 
                         ){
                             Text(
-                                "Acessibilidade",
+                                "Baixar relatório de desempenho",
                                 fontSize = 16.sp,
                                 fontFamily = Raleway,
-                                fontWeight = FontWeight.SemiBold
+                            )
+                        }
+                        Row(
+
+                        ){
+                            Text(
+                                "Limpar dados armazenados",
+                                fontSize = 16.sp,
+                                fontFamily = Raleway,
                             )
                         }
                     }
 
                     Column(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(0.25f)
+                            .weight(1f)
                     ) {
                         Text(
-                            "Acessibilidade",
+                            "Ajuda e Suporte",
                             fontSize = 24.sp,
                             fontFamily = Raleway,
                             fontWeight = FontWeight.SemiBold
                         )
 
                         Row(
+                            modifier = Modifier
+                                .padding(top = 10.dp)
+                        ){
+                            Text(
+                                "FAQ",
+                                fontSize = 16.sp,
+                                fontFamily = Raleway,
+                            )
+                        }
+                        Row(
 
                         ){
                             Text(
-                                "Acessibilidade",
+                                "Enviar feedback",
                                 fontSize = 16.sp,
                                 fontFamily = Raleway,
-                                fontWeight = FontWeight.SemiBold
+                            )
+                        }
+                        Row(
+
+                        ){
+                            Text(
+                                "Reportar problema",
+                                fontSize = 16.sp,
+                                fontFamily = Raleway,
+                            )
+                        }
+                        Row(
+
+                        ){
+                            Text(
+                                "Contato do suporte",
+                                fontSize = 16.sp,
+                                fontFamily = Raleway,
                             )
                         }
                     }
