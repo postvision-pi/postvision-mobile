@@ -10,6 +10,9 @@ import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -125,8 +128,37 @@ class CameraScreen {
             Box(modifier = Modifier.fillMaxSize()) {
                 CameraPreview(
                     viewModel = viewModel,
-                    poseLandmarkerHelper = poseLandmarkerHelper
+                    poseLandmarkerHelper = poseLandmarkerHelper,
                 )
+
+                val borderColor by animateColorAsState(
+                    targetValue = when {
+                        viewModel.hasError -> androidx.compose.ui.graphics.Color.Red.copy(alpha = 0.5f)
+                        viewModel.exerciceStage == 2 -> androidx.compose.ui.graphics.Color.Green.copy(alpha = 0.4f)
+                        else -> androidx.compose.ui.graphics.Color.Transparent
+                    },
+                    animationSpec = androidx.compose.animation.core.tween(500)
+                )
+                androidx.compose.foundation.Canvas(modifier = Modifier.fillMaxSize()) {
+                    drawRect(
+                        color = borderColor,
+                        style = androidx.compose.ui.graphics.drawscope.Stroke(width = 20.dp.toPx())
+                    )
+                }
+
+                if (viewModel.hasError && viewModel.errorLocation != null){
+                    androidx.compose.foundation.Canvas(modifier = Modifier.fillMaxSize()){
+                        drawCircle(
+                            brush = androidx.compose.ui.graphics.Brush.radialGradient(
+                                colors = listOf(androidx.compose.ui.graphics.Color.Red.copy(alpha = 0.4f), androidx.compose.ui.graphics.Color.Transparent),
+                                center = viewModel.errorLocation!!,
+                                radius = 250f
+                            ),
+                            radius = 250f,
+                            center = viewModel.errorLocation!!
+                        )
+                    }
+                }
 
                 // Renderiza a sobreposição do MediaPipe
                 poseResults?.let {
@@ -140,6 +172,22 @@ class CameraScreen {
                         runningMode = RunningMode.LIVE_STREAM,
                         isFrontCamera = isFrontCamera // Passa a info de reflexão
                     )
+                }
+
+                if (viewModel.countDownTime > 0){
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(androidx.compose.ui.graphics.Color.Black.copy(alpha = 0.7f)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "${viewModel.countDownTime}",
+                            style = MaterialTheme.typography.displayLarge.copy(
+                                fontSize = 120.sp, color = androidx.compose.ui.graphics.Color.White, fontWeight = FontWeight.Black
+                            )
+                        )
+                    }
                 }
 
                 // Barra superior (Câmera)
@@ -209,7 +257,7 @@ class CameraScreen {
 
                         // Botão Gravar
                         IconButton(
-                            onClick = {},
+                            onClick = { viewModel.startAnalysis() },
                             modifier = Modifier.size(68.dp)
                         ){
                             Icon(

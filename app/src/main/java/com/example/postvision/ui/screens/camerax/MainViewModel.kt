@@ -107,8 +107,42 @@ class MainViewModel : ViewModel() {
             isRecording = true
         }
     }
-    // Faltou continuar o process
     fun processPose(landmarks: List<NormalizedLandmark>) {
+        if (!isRecording) return
+
+        try {
+            val leftKneeAngke = calculateAngle(landmarks[23], landmarks[25], landmarks[27])
+            val rightKneeAngle = calculateAngle(landmarks[24], landmarks[26], landmarks[28])
+            val avgKnee = (leftKneeAngke + rightKneeAngle)/ 2
+
+            when (exerciceStage){
+                0 -> if (avgKnee < 140) exerciceStage = 1
+                1 -> {
+                    if (avgKnee < 100){
+                        exerciceStage = 2
+                        hasError = false
+                    }
+                }
+                2 -> if (avgKnee < 160){
+                    squatCount++
+                    exerciceStage = 0
+                }
+            }
+
+            val hipWidth = abs(landmarks[23].x() - landmarks[24].x())
+            val kneeWidth = abs(landmarks[25].x() - landmarks[26].x())
+
+            if (kneeWidth < hipWidth * 0.8){
+                hasError = true
+                errorLocation = Offset(landmarks[25].x(), landmarks[25].y())
+            } else {
+                hasError = false
+            }
+        } catch (e: Exception) {
+            Log.e("PI_MONITOR", "Erro na análise: ${e.message}")
+        }
+    }
+    /* fun processPose(landmarks: List<NormalizedLandmark>) {
         // Log para confirmar que a função está sendo executada
         Log.d("PI_MONITOR", "--- Nova captura recebida ---")
 
@@ -135,7 +169,7 @@ class MainViewModel : ViewModel() {
         } catch (e: Exception) {
             Log.e("PI_MONITOR", "Falha ao processar movimento: ${e.message}")
         }
-    }
+    } */
 
     private fun calculateAngle(
         p1: NormalizedLandmark,
