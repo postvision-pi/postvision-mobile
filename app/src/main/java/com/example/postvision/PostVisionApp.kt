@@ -26,7 +26,7 @@ fun AppNavigation(mainViewModel: MainViewModel = viewModel()) {
 
     NavHost(
         navController = navController,
-        startDestination = NavRoutes.HOME,
+        startDestination = NavRoutes.LOGIN,
         modifier = Modifier.fillMaxSize(),
         /*exitTransition = slideInHorizontally(
             initialOffsetX = { fullWidth -> fullWidth},

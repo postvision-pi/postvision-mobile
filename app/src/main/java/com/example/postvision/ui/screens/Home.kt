@@ -22,6 +22,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -63,168 +64,222 @@ fun WrapperHome(
     onBottomTabClick: (String) -> Unit
 ){
     PostVisionTheme{
-        Surface(modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(),
-            color = MaterialTheme.colorScheme.onBackground)
-        {
-            Column(
-                modifier = Modifier
-                    .padding(horizontal = 24.dp, vertical = 22.dp)
-                    .fillMaxSize(),
-            ) {
-                FlowRow(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(52.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+        Scaffold(
+            bottomBar = {
+                BottomNavBar(
+                    selectedRoute = "home",
+                    onNavigate = { route ->
+                        if (route == "stats") {
+                            onBottomTabClick(NavRoutes.STATYSTICS) // Usa a rota de estatísticas
+                        } else if (route == "profile") {
+                            // Se tiver uma rota de perfil, coloque aqui
+                            onBottomTabClick(NavRoutes.PROFILE)
+                        }
+                    }
                 )
-                {
-                    IconButton(onClick = {},
+            },
+            containerColor = MaterialTheme.colorScheme.onBackground
+        ) { innerPadding ->
+            Surface(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                color = MaterialTheme.colorScheme.onBackground
+            ){
+                Column(
+                    modifier = Modifier
+                        .padding(horizontal = 24.dp, vertical = 22.dp)
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    FlowRow(
                         modifier = Modifier
-                            .width(52.dp)
+                            .fillMaxWidth()
                             .height(52.dp),
-                    ) {
-                        Image(
-                            painter = painterResource(R.drawable.imagem),
-                            contentDescription = "Imagem from profile"
-                        )
-                    }
-                    IconButton(onClick = {},
-                        modifier = Modifier
-                            .width(21.dp)
-                            .fillMaxHeight(),
-                    ){
-                        Image(
-                            painter = painterResource(R.drawable.notification_icon),
-                            contentDescription = "Imagem from profile"
-                        )
-                    }
-                }
-                Row(
-                    modifier = Modifier.padding(top = 31.dp),
-
-                ){
-                    Text(
-                        "Olá ${viewModel.loggedUser?.firstName ?: "Usuário"}",
-                        fontFamily = Raleway,
-                        color = MaterialTheme.colorScheme.surface
+                        horizontalArrangement = Arrangement.SpaceBetween,
                     )
-                }
-
-                Column(modifier = Modifier.padding(top = 23.dp)){
-                    Card(modifier = Modifier
-                        .fillMaxWidth()
-                        .height(222.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.background,
-                        )) {
-                        Column(modifier = Modifier
-                            .padding(start = 26.dp, top = 20.dp, end = 10.dp)) {
-                            Text(
-                                "Faça sua análise",
-                                fontFamily = Raleway,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.surface,
-                                fontSize = 24.sp
+                    {
+                        IconButton(onClick = {},
+                            modifier = Modifier
+                                .width(52.dp)
+                                .height(52.dp),
+                        ) {
+                            Image(
+                                painter = painterResource(R.drawable.imagem),
+                                contentDescription = "Imagem from profile"
                             )
-                            Text(
-                                "Corrija sua postura e melhore seu desempenho nos exercícios físicos.",
-                                fontFamily = Raleway,
-                                color = MaterialTheme.colorScheme.surface,
-                                fontSize = 14.sp
+                        }
+                        IconButton(onClick = {},
+                            modifier = Modifier
+                                .width(21.dp)
+                                .fillMaxHeight(),
+                        ){
+                            Image(
+                                painter = painterResource(R.drawable.notification_icon),
+                                contentDescription = "Imagem from profile"
                             )
+                        }
+                    }
+                    Row(
+                        modifier = Modifier
+                            .padding(top = 31.dp)
+                            .fillMaxWidth(),
 
-                            Row(modifier = Modifier
-                                .padding(vertical = 39.dp)
-                                .fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ){
-                                Image(modifier = Modifier
-                                    .width(72.04.dp)
-                                    .height(72.04.dp),
-                                    painter = painterResource(R.drawable.eye_graph),
-                                    contentDescription = "Image from eye graph")
+                    ){
+                        Text(
+                            "Olá ${viewModel.loggedUser?.firstName ?: "Usuário"}",
+                            fontFamily = Raleway,
+                            color = MaterialTheme.colorScheme.surface
+                        )
+                    }
 
-                                Card(modifier = Modifier
-                                    .width(100.dp)
-                                    .height(46.dp),
-                                    colors = CardDefaults.cardColors(
-                                        containerColor = MaterialTheme.colorScheme.primary
-                                    ),
-                                    shape = RoundedCornerShape(20.dp)
-                                ) {
-                                    FlowRow(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .fillMaxHeight(),
-                                        verticalArrangement = Arrangement.SpaceAround,
-                                        horizontalArrangement = Arrangement.SpaceAround,
-                                        itemVerticalAlignment = Alignment.CenterVertically) {
+                    Column(modifier = Modifier.padding(top = 23.dp)){
+                        Card(modifier = Modifier
+                            .fillMaxWidth()
+                            .height(222.dp),
+                            colors = CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.background,
+                            )) {
+                            Column(modifier = Modifier
+                                .padding(start = 26.dp, top = 20.dp, end = 10.dp)) {
+                                Text(
+                                    "Faça sua análise",
+                                    fontFamily = Raleway,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.surface,
+                                    fontSize = 24.sp
+                                )
+                                Text(
+                                    "Corrija sua postura e melhore seu desempenho nos exercícios físicos.",
+                                    fontFamily = Raleway,
+                                    color = MaterialTheme.colorScheme.surface,
+                                    fontSize = 14.sp
+                                )
 
-                                        Text(
-                                            "Iniciar",
+                                Row(modifier = Modifier
+                                    .padding(vertical = 39.dp)
+                                    .fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween
+                                ){
+                                    Image(modifier = Modifier
+                                        .width(72.04.dp)
+                                        .height(72.04.dp),
+                                        painter = painterResource(R.drawable.eye_graph),
+                                        contentDescription = "Image from eye graph")
+
+                                    Card(modifier = Modifier
+                                        .width(100.dp)
+                                        .height(46.dp),
+                                        colors = CardDefaults.cardColors(
+                                            containerColor = MaterialTheme.colorScheme.primary
+                                        ),
+                                        shape = RoundedCornerShape(20.dp)
+                                    ) {
+                                        FlowRow(
                                             modifier = Modifier
-                                                .padding(start = 12.dp),
-                                            fontFamily = Raleway,
-                                            fontSize = 12.sp,
-                                            color = MaterialTheme.colorScheme.background
-                                        )
+                                                .fillMaxWidth()
+                                                .fillMaxHeight(),
+                                            verticalArrangement = Arrangement.SpaceAround,
+                                            horizontalArrangement = Arrangement.SpaceAround,
+                                            itemVerticalAlignment = Alignment.CenterVertically) {
 
-                                        IconButton(
-                                            onClick = onNavigateToChooseExercise,
-                                            modifier = Modifier
-                                                .width(35.dp)
-                                                .height(35.dp),
-                                            colors = IconButtonDefaults.iconButtonColors(containerColor = MaterialTheme.colorScheme.background),
-                                        ) {
-                                            Image(
+                                            Text(
+                                                "Iniciar",
                                                 modifier = Modifier
-                                                    .width(21.dp)
-                                                    .height(18.dp),
-                                                painter = painterResource(R.drawable.cam_graph),
-                                                contentDescription = "Image from cam graph"
+                                                    .padding(start = 12.dp),
+                                                fontFamily = Raleway,
+                                                fontSize = 12.sp,
+                                                color = MaterialTheme.colorScheme.background
                                             )
+
+                                            IconButton(
+                                                onClick = onNavigateToChooseExercise,
+                                                modifier = Modifier
+                                                    .width(35.dp)
+                                                    .height(35.dp),
+                                                colors = IconButtonDefaults.iconButtonColors(containerColor = MaterialTheme.colorScheme.background),
+                                            ) {
+                                                Image(
+                                                    modifier = Modifier
+                                                        .width(21.dp)
+                                                        .height(18.dp),
+                                                    painter = painterResource(R.drawable.cam_graph),
+                                                    contentDescription = "Image from cam graph"
+                                                )
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
+
+                        Row(modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 15.dp),
+                            horizontalArrangement = Arrangement.spacedBy(15.dp) // CORRIGIDO: Espaçamento entre cartões
+                        ){
+
+                            Card(modifier = Modifier
+                                .weight(2f)
+                                .height(96.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.onPrimary
+                                )){
+                                Column(modifier = Modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight()
+                                    .padding(start = 28.dp),
+                                    verticalArrangement = Arrangement.Center,
+                                ) {
+                                    Text(
+                                        "Estatísticas",
+                                        fontFamily = Raleway,
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = MaterialTheme.colorScheme.surface
+                                    )
+                                    Text(
+                                        "Verifique as estatísticas das suas ultimas sessões",
+                                        fontFamily = Raleway,
+                                        fontSize = 14.sp,
+                                        color = MaterialTheme.colorScheme.surface
+                                    )
+                                }
+                            }
+                            Card(modifier = Modifier
+                                .weight(1f)
+                                .height(96.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.onBackground
+                                ),
+                                border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.surface)){
+                                Column(modifier = Modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight(),
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.CenterHorizontally
+
+                                    ) {
+                                    Text(
+                                        "Ver mais \n " +
+                                                "detalhes",
+                                        textAlign = TextAlign.Start,
+                                        fontFamily = Raleway,
+                                        fontSize = 14.sp,
+                                        color = MaterialTheme.colorScheme.surface
+                                    )
+                                }
+                            }
+                        }
                     }
+
+                    // Sugestões
 
                     Row(modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 15.dp),
-                        horizontalArrangement = Arrangement.spacedBy(15.dp) // CORRIGIDO: Espaçamento entre cartões
+                        horizontalArrangement = Arrangement.spacedBy(15.dp)
                     ){
-
-                        Card(modifier = Modifier
-                            .weight(2f)
-                            .height(96.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = MaterialTheme.colorScheme.onPrimary
-                            )){
-                            Column(modifier = Modifier
-                                .fillMaxWidth()
-                                .fillMaxHeight()
-                                .padding(start = 28.dp),
-                                verticalArrangement = Arrangement.Center,
-                            ) {
-                                Text(
-                                    "Estatísticas",
-                                    fontFamily = Raleway,
-                                    fontSize = 20.sp,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = MaterialTheme.colorScheme.surface
-                                )
-                                Text(
-                                    "Verifique as estatísticas das suas ultimas sessões",
-                                    fontFamily = Raleway,
-                                    fontSize = 14.sp,
-                                    color = MaterialTheme.colorScheme.surface
-                                )
-                            }
-                        }
                         Card(modifier = Modifier
                             .weight(1f)
                             .height(96.dp),
@@ -240,8 +295,8 @@ fun WrapperHome(
 
                                 ) {
                                 Text(
-                                    "Ver mais \n " +
-                                            "detalhes",
+                                    "Receber \n" +
+                                            "Sugestões ",
                                     textAlign = TextAlign.Start,
                                     fontFamily = Raleway,
                                     fontSize = 14.sp,
@@ -249,127 +304,77 @@ fun WrapperHome(
                                 )
                             }
                         }
-                    }
-                }
-
-                // Sugestões
-
-                Row(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 15.dp),
-                    horizontalArrangement = Arrangement.spacedBy(15.dp)
-                ){
-                    Card(modifier = Modifier
-                        .weight(1f)
-                        .height(96.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.onBackground
-                        ),
-                        border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.surface)){
-                        Column(modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally
-
+                        Card(modifier = Modifier
+                            .weight(2f) // CORRIGIDO: Usando weight para responsividade (2/3)
+                            .height(96.dp),
+                            colors = CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.primary
+                            )){
+                            Column(modifier = Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight()
+                                .padding(start = 28.dp),
+                                verticalArrangement = Arrangement.Center,
                             ) {
-                            Text(
-                                "Receber \n" +
-                                        "Sugestões ",
-                                textAlign = TextAlign.Start,
-                                fontFamily = Raleway,
-                                fontSize = 14.sp,
-                                color = MaterialTheme.colorScheme.surface
-                            )
-                        }
-                    }
-                    Card(modifier = Modifier
-                        .weight(2f) // CORRIGIDO: Usando weight para responsividade (2/3)
-                        .height(96.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.primary
-                        )){
-                        Column(modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight()
-                            .padding(start = 28.dp),
-                            verticalArrangement = Arrangement.Center,
-                        ) {
-                            Text(
-                                "Sugestões",
-                                fontFamily = Raleway,
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                color = MaterialTheme.colorScheme.background
-                            )
-                            Text(
-                                "Verifique as estatísticas das suas ultimas sessões",
-                                fontFamily = Raleway,
-                                fontSize = 14.sp,
-                                color = MaterialTheme.colorScheme.background
-                            )
-                        }
-                    }
-                }
-                Card(modifier = Modifier
-                    .fillMaxWidth()
-                    .height(143.dp)
-                    .padding(top = 10.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.background
-                    )) {
-                    Row(modifier = Modifier
-                        .width(265.dp)
-                        .height(95.63.dp)
-                        .align(Alignment.CenterHorizontally)
-                        .offset(y = 23.69.dp),
-                        horizontalArrangement = Arrangement.SpaceAround,
-                        verticalAlignment = Alignment.CenterVertically) {
-                        Image(
-                            modifier = Modifier
-                                .width(72.dp)
-                                .height(95.63.dp),
-                            painter = painterResource(R.drawable.streak_graph),
-                            contentDescription = "Image from streak graph"
-                        )
-                        Column(modifier = Modifier
-                            .fillMaxHeight()
-                            .padding(start = 30.dp),
-                            verticalArrangement = Arrangement.Center
-                        ) {
-                            Text(
-                                "Streak",
-                                fontFamily = Raleway,
-                                fontSize = 28.sp,
-                                color = MaterialTheme.colorScheme.surface,
-                                fontWeight = FontWeight.Bold
-                            )
-
-                            Text(
-                                "Realize as análises para aumentar seu streak",
-                                fontFamily = Raleway,
-                                fontSize = 13.sp,
-                                color = MaterialTheme.colorScheme.surface,
-                            )
-                        }
-                    }
-                }
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 20.dp),
-                    horizontalArrangement = Arrangement.Center
-                ){
-                    BottomNavBar(
-                        selectedRoute = "home",
-                        onNavigate = { route ->
-                            if (route == "stats") {
-                                onBottomTabClick(NavRoutes.STATYSTICS) // Usa a rota de estatísticas
-                            } else if (route == "profile") {
-                                onBottomTabClick(NavRoutes.PROFILE)
+                                Text(
+                                    "Sugestões",
+                                    fontFamily = Raleway,
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = MaterialTheme.colorScheme.background
+                                )
+                                Text(
+                                    "Verifique as estatísticas das suas ultimas sessões",
+                                    fontFamily = Raleway,
+                                    fontSize = 14.sp,
+                                    color = MaterialTheme.colorScheme.background
+                                )
                             }
                         }
-                    )
+                    }
+                    Card(modifier = Modifier
+                        .fillMaxWidth()
+                        .height(143.dp)
+                        .padding(top = 10.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.background
+                        )) {
+                        Row(modifier = Modifier
+                            .width(265.dp)
+                            .height(95.63.dp)
+                            .align(Alignment.CenterHorizontally)
+                            .offset(y = 23.69.dp),
+                            horizontalArrangement = Arrangement.SpaceAround,
+                            verticalAlignment = Alignment.CenterVertically) {
+                            Image(
+                                modifier = Modifier
+                                    .width(72.dp)
+                                    .height(95.63.dp),
+                                painter = painterResource(R.drawable.streak_graph),
+                                contentDescription = "Image from streak graph"
+                            )
+                            Column(modifier = Modifier
+                                .fillMaxHeight()
+                                .padding(start = 30.dp),
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    "Streak",
+                                    fontFamily = Raleway,
+                                    fontSize = 28.sp,
+                                    color = MaterialTheme.colorScheme.surface,
+                                    fontWeight = FontWeight.Bold
+                                )
+
+                                Text(
+                                    "Realize as análises para aumentar seu streak",
+                                    fontFamily = Raleway,
+                                    fontSize = 13.sp,
+                                    color = MaterialTheme.colorScheme.surface,
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }

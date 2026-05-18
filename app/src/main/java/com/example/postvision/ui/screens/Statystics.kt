@@ -43,40 +43,34 @@ fun WrapperStatystics(
     val scrollState = rememberScrollState()
 
     PostVisionTheme() {
-        Surface(
-            color = MaterialTheme.colorScheme.onBackground
-        )
-        {
-            Scaffold(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(),
-                bottomBar = {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
-                    ){
-                        BottomNavBar(
-                            selectedRoute = "stats",
-                            onNavigate = { route ->
-                                if (route == "home") {
-                                    onBottomTabClick(NavRoutes.HOME) // Usa a rota de estatísticas
-                                } else if (route == "profile") {
-                                    // Se tiver uma rota de perfil, coloque aqui
-                                    onBottomTabClick(NavRoutes.PROFILE)
-                                }
-                            }
-                        )
+        Scaffold(
+            bottomBar = {
+                BottomNavBar(
+                    selectedRoute = "stats",
+                    onNavigate = { route ->
+                        if (route == "home") {
+                            onBottomTabClick(NavRoutes.HOME) // Usa a rota de estatísticas
+                        } else if (route == "profile") {
+                            // Se tiver uma rota de perfil, coloque aqui
+                            onBottomTabClick(NavRoutes.PROFILE)
+                        }
                     }
-                },
-                containerColor = MaterialTheme.colorScheme.onBackground
-            ) { paddingValues ->
-                Column(modifier = Modifier
-                    .padding(vertical = 22.dp, horizontal = 24.dp)
-                    .padding(paddingValues)
-                    .fillMaxHeight()
                 )
+            },
+            containerColor = MaterialTheme.colorScheme.onBackground
+        ) { innerPadding ->
+            Surface(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                color = MaterialTheme.colorScheme.onBackground
+            ){
+                Column(
+                    modifier = Modifier
+                        .padding(vertical = 22.dp, horizontal = 24.dp)
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                    )
                 {
                     FlowRow(
                         modifier = Modifier
@@ -85,7 +79,8 @@ fun WrapperStatystics(
                         horizontalArrangement = Arrangement.SpaceBetween,
                     )
                     {
-                        IconButton(onClick = {},
+                        IconButton(
+                            onClick = {},
                             modifier = Modifier
                                 .width(52.dp)
                                 .height(52.dp),
@@ -95,11 +90,12 @@ fun WrapperStatystics(
                                 contentDescription = "Imagem from profile"
                             )
                         }
-                        IconButton(onClick = {},
+                        IconButton(
+                            onClick = {},
                             modifier = Modifier
                                 .width(21.dp)
                                 .fillMaxHeight(),
-                        ){
+                        ) {
                             Image(
                                 painter = painterResource(R.drawable.notification_icon),
                                 contentDescription = "Imagem from profile"
@@ -120,7 +116,7 @@ fun WrapperStatystics(
                                 .fillMaxWidth()
                                 .padding(top = 22.dp),
                             Arrangement.SpaceAround
-                        ){
+                        ) {
                             Card(
                                 modifier = Modifier
                                     .height(30.dp)
@@ -130,7 +126,7 @@ fun WrapperStatystics(
                                     containerColor = MaterialTheme.colorScheme.background
                                 )
 
-                            ){
+                            ) {
                                 Row(
                                     modifier = Modifier
                                         .fillMaxSize(),
@@ -156,7 +152,7 @@ fun WrapperStatystics(
                                     containerColor = MaterialTheme.colorScheme.background
                                 )
 
-                            ){
+                            ) {
                                 Row(
                                     modifier = Modifier
                                         .fillMaxSize(),
@@ -181,7 +177,7 @@ fun WrapperStatystics(
                                     containerColor = MaterialTheme.colorScheme.background
                                 )
 
-                            ){
+                            ) {
                                 Row(
                                     modifier = Modifier
                                         .fillMaxSize(),
@@ -203,20 +199,24 @@ fun WrapperStatystics(
                                 .verticalScroll(scrollState)
                                 .padding(top = 5.dp)
                         ) {
-                            Card(modifier = Modifier
-                                .fillMaxWidth()
-                                .height(143.dp)
-                                .padding(top = 13.dp),
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(143.dp)
+                                    .padding(top = 13.dp),
                                 colors = CardDefaults.cardColors(
                                     containerColor = MaterialTheme.colorScheme.background
-                                )) {
-                                Row(modifier = Modifier
-                                    .width(265.dp)
-                                    .height(95.63.dp)
-                                    .align(Alignment.CenterHorizontally)
-                                    .offset(y = 23.69.dp),
+                                )
+                            ) {
+                                Row(
+                                    modifier = Modifier
+                                        .width(265.dp)
+                                        .height(95.63.dp)
+                                        .align(Alignment.CenterHorizontally)
+                                        .offset(y = 23.69.dp),
                                     horizontalArrangement = Arrangement.SpaceAround,
-                                    verticalAlignment = Alignment.CenterVertically) {
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
                                     Image(
                                         modifier = Modifier
                                             .width(72.dp)
@@ -224,9 +224,10 @@ fun WrapperStatystics(
                                         painter = painterResource(R.drawable.streak_graph),
                                         contentDescription = "Image from streak graph"
                                     )
-                                    Column(modifier = Modifier
-                                        .fillMaxHeight()
-                                        .padding(start = 30.dp),
+                                    Column(
+                                        modifier = Modifier
+                                            .fillMaxHeight()
+                                            .padding(start = 30.dp),
                                         verticalArrangement = Arrangement.Center
                                     ) {
                                         Text(
@@ -246,33 +247,39 @@ fun WrapperStatystics(
                                     }
                                 }
                             }
-                            Card(modifier = Modifier
-                                .fillMaxWidth()
-                                .height(270.dp)
-                                .padding(top = 13.dp),
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(270.dp)
+                                    .padding(top = 13.dp),
                                 colors = CardDefaults.cardColors(
                                     containerColor = MaterialTheme.colorScheme.background
-                                )) {
+                                )
+                            ) {
 
                             }
 
-                            Card(modifier = Modifier
-                                .fillMaxWidth()
-                                .height(270.dp)
-                                .padding(top = 13.dp),
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(270.dp)
+                                    .padding(top = 13.dp),
                                 colors = CardDefaults.cardColors(
                                     containerColor = MaterialTheme.colorScheme.background
-                                )) {
+                                )
+                            ) {
 
                             }
 
-                            Card(modifier = Modifier
-                                .fillMaxWidth()
-                                .height(270.dp)
-                                .padding(top = 13.dp),
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(270.dp)
+                                    .padding(top = 13.dp),
                                 colors = CardDefaults.cardColors(
                                     containerColor = MaterialTheme.colorScheme.background
-                                )) {
+                                )
+                            ) {
 
                             }
                         }

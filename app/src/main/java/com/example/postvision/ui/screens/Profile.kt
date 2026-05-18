@@ -42,43 +42,31 @@ fun WrapperProfile(
     val scrollState = rememberScrollState()
 
     PostVisionTheme {
-        Surface(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(),
-            color = MaterialTheme.colorScheme.onBackground,
-
-        ) {
             Scaffold(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(),
                 bottomBar = {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 20.dp),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        BottomNavBar(
-                            selectedRoute = "profile",
-                            onNavigate = { route ->
-                                if (route == "home") {
-                                    onBottomTabClick(NavRoutes.HOME) // Usa a rota de estatísticas
-                                } else if (route == "stats") {
-                                    // Se tiver uma rota de perfil, coloque aqui
-                                    onBottomTabClick(NavRoutes.STATYSTICS)
-                                }
+                    BottomNavBar(
+                        selectedRoute = "profile",
+                        onNavigate = { route ->
+                            if (route == "home") {
+                                onBottomTabClick(NavRoutes.HOME) // Usa a rota de estatísticas
+                            } else if (route == "stats") {
+                                // Se tiver uma rota de perfil, coloque aqui
+                                onBottomTabClick(NavRoutes.STATYSTICS)
                             }
-                        )
-                    }
+                        }
+                    )
                 },
                 containerColor = MaterialTheme.colorScheme.onBackground
-            ) { paddingValues ->
+            ) {innerPadding ->
+            Surface(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                color = MaterialTheme.colorScheme.onBackground
+            ) {
                 Column(
                     modifier = Modifier
                         .padding(vertical = 22.dp, horizontal = 24.dp)
-                        .padding(paddingValues)
                         .fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -473,11 +461,11 @@ fun WrapperProfile(
                         }
                     }
                 }
-
             }
         }
-        }
     }
+}
+
 
 
 @Preview
