@@ -46,9 +46,9 @@ fun BottomNavBar(
         // BARRA DE NAVEGAÇÃO INFERIOR
         Row(
             modifier = Modifier
-                .fillMaxWidth(0.7f)
-                .height(80.dp)
-                .offset(y = -10.dp)
+                .fillMaxWidth(0.6f)
+                .height(70.dp)
+                .offset(y = -14.dp)
                 .clip(RoundedCornerShape(20.dp))
                 .background(MaterialTheme.colorScheme.background),
             horizontalArrangement = Arrangement.SpaceBetween,
