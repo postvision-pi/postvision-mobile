@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -256,7 +257,29 @@ fun WrapperStatystics(
                                     containerColor = MaterialTheme.colorScheme.background
                                 )
                             ) {
-
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(top = 24.dp, start = 29.dp)
+                                )
+                                {
+                                    Column() {
+                                        Text(
+                                            text = "Último treino",
+                                            fontFamily = Raleway,
+                                            fontSize = 24.sp,
+                                            color = MaterialTheme.colorScheme.surface,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                        Text(
+                                            text = "Agachamento",
+                                            fontFamily = Raleway,
+                                            fontSize = 10.sp,
+                                            color = MaterialTheme.colorScheme.onSurface,
+                                            fontWeight = FontWeight.Normal
+                                        )
+                                    }
+                                }
                             }
 
                             Card(
