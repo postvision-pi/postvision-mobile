@@ -50,8 +50,8 @@ fun WrapperLogin(
     viewModel: MainViewModel,
     onNavigateToHome: () -> Unit
 ){
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+        var email by remember { mutableStateOf("") }
+        var password by remember { mutableStateOf("") }
 
     PostVisionTheme {
         Surface(modifier = Modifier
@@ -199,7 +199,6 @@ fun WrapperLogin(
                         )
                     }
                 }
-
             }
         }
     }
