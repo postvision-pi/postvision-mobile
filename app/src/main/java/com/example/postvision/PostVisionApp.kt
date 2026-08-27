@@ -15,7 +15,7 @@ import com.example.postvision.ui.screens.WrapperStepByStep
 import com.example.postvision.ui.screens.camerax.CameraScreen
 import com.example.postvision.MainViewModel
 import com.example.postvision.ui.screens.WrapperProfile
-import com.example.postvision.ui.screens.WrapperStatystics
+import com.example.postvision.ui.screens.WrapperStatistic
 import com.example.postvision.ui.screens.camerax.MainViewModel as CameraViewModel
 
 
@@ -82,7 +82,7 @@ fun AppNavigation(mainViewModel: MainViewModel = viewModel()) {
         }
 
         composable(NavRoutes.STATYSTICS) {
-            WrapperStatystics(
+            WrapperStatistic(
                 onBottomTabClick = { route ->
                     navController.navigate(route) {
                         launchSingleTop = true

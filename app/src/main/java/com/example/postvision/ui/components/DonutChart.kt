@@ -37,7 +37,7 @@ fun DonutChart(
                     startAngle = startAngle,
                     sweepAngle = sweepAngle,
                     useCenter = false,
-                    style = Stroke(width = 100f)
+                    style = Stroke(width = 65f)
                 )
 
                 startAngle += sweepAngle
@@ -53,7 +53,7 @@ fun DonutChart(
 
 @Preview
 @Composable
-fun DonutChartExample() {
+fun PreviewDonutChart() {
     val myData = listOf(75f, 25f)
 
     val myColors = listOf(
@@ -72,7 +72,7 @@ fun DonutChartExample() {
             data = myData,
             colors = myColors,
             percentual = myPercentual,
-            modifier = Modifier.size(200.dp)
+            modifier = Modifier.size(75.dp)
         )
     }
 }

@@ -43,7 +43,7 @@ import com.example.postvision.ui.components.TextInputComponent
 import com.example.postvision.ui.navigation.NavRoutes
 
 @Composable
-fun WrapperProfileEdtion(){
+fun WrapperProfileEdition(){
     val scrollState = rememberScrollState()
 
     var nome by remember { mutableStateOf("") }
@@ -152,6 +152,6 @@ fun WrapperProfileEdtion(){
 
 @Preview
 @Composable
-fun PreviewProfileEdtion(){
-    WrapperProfileEdtion()
+fun PreviewProfileEdition(){
+    WrapperProfileEdition()
 }

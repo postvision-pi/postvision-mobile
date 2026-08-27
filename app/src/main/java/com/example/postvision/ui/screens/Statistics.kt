@@ -33,14 +33,26 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.postvision.R
 import com.example.postvision.ui.components.BottomNavBar
+import com.example.postvision.ui.components.DonutChart
 import com.example.postvision.ui.navigation.NavRoutes
 import com.example.postvision.ui.theme.PostVisionTheme
 import com.example.postvision.ui.theme.Raleway
 
 @Composable
-fun WrapperStatystics(
+fun WrapperStatistic(
     onBottomTabClick: (String) -> Unit
 ) {
+    // Informações da gráfico de pizza
+    val myData = listOf(75f, 25f)
+
+    val myColors = listOf(
+        MaterialTheme.colorScheme.primary,
+        MaterialTheme.colorScheme.secondary,
+    )
+
+    val myPercentual = "75%"
+    //
+
     val scrollState = rememberScrollState()
 
     PostVisionTheme() {
@@ -52,7 +64,6 @@ fun WrapperStatystics(
                         if (route == "home") {
                             onBottomTabClick(NavRoutes.HOME) // Usa a rota de estatísticas
                         } else if (route == "profile") {
-                            // Se tiver uma rota de perfil, coloque aqui
                             onBottomTabClick(NavRoutes.PROFILE)
                         }
                     }
@@ -260,7 +271,8 @@ fun WrapperStatystics(
                                 Column(
                                     modifier = Modifier
                                         .fillMaxSize()
-                                        .padding(top = 24.dp, start = 29.dp)
+                                        .padding(start = 29.dp),
+                                    verticalArrangement = Arrangement.SpaceAround
                                 )
                                 {
                                     Column() {
@@ -279,7 +291,30 @@ fun WrapperStatystics(
                                             fontWeight = FontWeight.Normal
                                         )
                                     }
+                                    Column(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                    ) {
+                                        DonutChart(
+                                            data = myData,
+                                            colors = myColors,
+                                            percentual = myPercentual,
+                                            modifier = Modifier.size(100.dp)
+                                        )
+                                        Row() {
+                                            Row(){
+                                                Text(
+                                                    text = "Corretos",
+                                                )
+
+                                                Text(
+                                                    text = "total"
+                                                )
+                                            }
+                                        }
+                                    }
                                 }
+
                             }
 
                             Card(
@@ -317,8 +352,8 @@ fun WrapperStatystics(
 
 @Preview
 @Composable
-fun MobilePreviewStatystics(){
-    WrapperStatystics(
+fun MobilePreviewStatistic(){
+    WrapperStatistic(
         onBottomTabClick = {}
     )
 }
