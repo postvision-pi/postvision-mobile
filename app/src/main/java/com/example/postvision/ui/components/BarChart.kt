@@ -33,8 +33,8 @@ fun BarChart(
     PostVisionTheme {
         val context = LocalContext.current
 
-        val barGraphHeight by remember { mutableStateOf(200.dp) }
-        val barGraphWidth by remember { mutableStateOf(16.dp) }
+        val barGraphHeight by remember { mutableStateOf(150.dp) }
+        val barGraphWidth by remember { mutableStateOf(12.dp) }
 
         val maxReps = weeklyData.maxOfOrNull { it.totalReps }?.coerceAtLeast(1) ?: 1
 
@@ -42,7 +42,7 @@ fun BarChart(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(barGraphHeight)
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 12.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.Bottom
         ) {
@@ -56,7 +56,7 @@ fun BarChart(
 
                     Row(
                         verticalAlignment = Alignment.Bottom,
-                        modifier = Modifier.weight(1f) // Ocupa todo o espaço vertical disponível acima do texto
+                        modifier = Modifier.weight(1f)
                     ) {
                         val heightFractionCorrect = dayData.correctReps.toFloat() / maxReps
                         val heightFractionTotal = dayData.totalReps.toFloat() / maxReps
@@ -101,7 +101,6 @@ fun BarChart(
 @Preview(showBackground = true)
 @Composable
 fun BarChartPreview(){
-    // Simulando como os dados chegarão no preview
     BarChart(
         weeklyData = listOf(
             DayPerformance("Dom", 4, 10),

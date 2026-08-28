@@ -24,7 +24,7 @@ data class SquatRecord(
 )
 
 @Composable
-fun WrapperLineChart(
+fun LineChart(
     data: List<SquatRecord>,
     modifier: Modifier = Modifier,
     lineColor: Color = Color(0xFF160B4A) // Aquele azul/roxo escuro do seu layout
@@ -148,5 +148,5 @@ fun PreviewLineChart(){
         SquatRecord(21, 85)
     )
 
-    WrapperLineChart(data = mockData)
+    LineChart(data = mockData)
 }

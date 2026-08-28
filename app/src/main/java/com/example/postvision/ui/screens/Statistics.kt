@@ -19,6 +19,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -32,8 +33,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.postvision.R
+import com.example.postvision.ui.components.BarChart
 import com.example.postvision.ui.components.BottomNavBar
+import com.example.postvision.ui.components.DayPerformance
 import com.example.postvision.ui.components.DonutChart
+import com.example.postvision.ui.components.LineChart
+import com.example.postvision.ui.components.SquatRecord
 import com.example.postvision.ui.navigation.NavRoutes
 import com.example.postvision.ui.theme.PostVisionTheme
 import com.example.postvision.ui.theme.Raleway
@@ -51,6 +56,32 @@ fun WrapperStatistic(
     )
 
     val myPercentual = "75%"
+    //
+
+    // Informações do gráfico de barras
+    val weeklyData = listOf(
+        DayPerformance("Dom", 2, 5),
+        DayPerformance("Seg", 8, 9),
+        DayPerformance("Ter", 8, 13),
+        DayPerformance("Qua", 1, 2),
+        DayPerformance("Qui", 7, 12),
+        DayPerformance("Sex", 14, 15),
+        DayPerformance("Sab", 4, 5)
+    )
+    //
+
+    // Informações do gráfico de linha
+    val mockData = listOf(
+        SquatRecord(1, 15),
+        SquatRecord(3, 30),
+        SquatRecord(5, 25),
+        SquatRecord(7, 45),
+        SquatRecord(9, 40),
+        SquatRecord(12, 55),
+        SquatRecord(15, 60),
+        SquatRecord(18, 80),
+        SquatRecord(21, 85)
+    )
     //
 
     val scrollState = rememberScrollState()
@@ -96,9 +127,12 @@ fun WrapperStatistic(
                             modifier = Modifier
                                 .width(52.dp)
                                 .height(52.dp),
+                            colors = IconButtonDefaults.iconButtonColors(
+                                containerColor = MaterialTheme.colorScheme.background,
+                            )
                         ) {
                             Image(
-                                painter = painterResource(R.drawable.imagem),
+                                painter = painterResource(R.drawable.profile_graph),
                                 contentDescription = "Imagem from profile"
                             )
                         }
@@ -270,12 +304,14 @@ fun WrapperStatistic(
                             ) {
                                 Column(
                                     modifier = Modifier
-                                        .fillMaxSize()
-                                        .padding(start = 29.dp),
+                                        .fillMaxSize(),
                                     verticalArrangement = Arrangement.SpaceAround
                                 )
                                 {
-                                    Column() {
+                                    Column(
+                                        modifier = Modifier
+                                            .padding(start = 29.dp)
+                                    ) {
                                         Text(
                                             text = "Último treino",
                                             fontFamily = Raleway,
@@ -293,7 +329,8 @@ fun WrapperStatistic(
                                     }
                                     Column(
                                         modifier = Modifier
-                                            .fillMaxWidth()
+                                            .fillMaxWidth(),
+                                        horizontalAlignment = Alignment.CenterHorizontally
                                     ) {
                                         DonutChart(
                                             data = myData,
@@ -301,14 +338,53 @@ fun WrapperStatistic(
                                             percentual = myPercentual,
                                             modifier = Modifier.size(100.dp)
                                         )
-                                        Row() {
-                                            Row(){
-                                                Text(
-                                                    text = "Corretos",
-                                                )
+                                        Row(
+                                            modifier = Modifier
+                                                .padding(top = 15.dp)
+                                                .width(189.dp),
+                                            horizontalArrangement = Arrangement.SpaceBetween
+                                        ){
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ){
+                                                Card(
+                                                    modifier = Modifier
+                                                        .width(19.dp)
+                                                        .height(19.dp),
+                                                    colors = CardDefaults.cardColors(
+                                                        containerColor = MaterialTheme.colorScheme.primary
+                                                    )
 
+                                                ){}
                                                 Text(
-                                                    text = "total"
+                                                    modifier = Modifier
+                                                        .padding(start = 2.dp),
+                                                    text = "Corretos",
+                                                    color = MaterialTheme.colorScheme.surface,
+                                                    fontFamily = Raleway,
+                                                    fontSize = 13.sp
+                                                )
+                                            }
+
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ) {
+                                                Card(
+                                                    modifier = Modifier
+                                                        .width(19.dp)
+                                                        .height(19.dp),
+                                                    colors = CardDefaults.cardColors(
+                                                        containerColor = MaterialTheme.colorScheme.secondary
+                                                    )
+
+                                                ){}
+                                                Text(
+                                                    modifier = Modifier
+                                                        .padding(start = 2.dp),
+                                                    text = "Incorretos",
+                                                    color = MaterialTheme.colorScheme.surface,
+                                                    fontFamily = Raleway,
+                                                    fontSize = 13.sp
                                                 )
                                             }
                                         }
@@ -326,7 +402,42 @@ fun WrapperStatistic(
                                     containerColor = MaterialTheme.colorScheme.background
                                 )
                             ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize(),
+                                    verticalArrangement = Arrangement.SpaceAround
+                                )
+                                {
+                                    Column(
+                                        modifier = Modifier
+                                            .padding(start = 29.dp)
+                                    ) {
+                                        Text(
+                                            text = "Desempenho Semanal",
+                                            fontFamily = Raleway,
+                                            fontSize = 24.sp,
+                                            color = MaterialTheme.colorScheme.surface,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                        Text(
+                                            text = "Agachamento",
+                                            fontFamily = Raleway,
+                                            fontSize = 10.sp,
+                                            color = MaterialTheme.colorScheme.onSurface,
+                                            fontWeight = FontWeight.Normal
+                                        )
+                                    }
+                                    Column(
+                                        modifier = Modifier
+                                            .fillMaxWidth(),
+                                        horizontalAlignment = Alignment.CenterHorizontally
+                                    ) {
+                                        BarChart(
+                                            weeklyData
+                                        )
+                                    }
 
+                                }
                             }
 
                             Card(
@@ -338,7 +449,42 @@ fun WrapperStatistic(
                                     containerColor = MaterialTheme.colorScheme.background
                                 )
                             ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize(),
+                                    verticalArrangement = Arrangement.SpaceAround
+                                )
+                                {
+                                    Column(
+                                        modifier = Modifier
+                                            .padding(start = 29.dp)
+                                    ) {
+                                        Text(
+                                            text = "Comparativo Mensal",
+                                            fontFamily = Raleway,
+                                            fontSize = 24.sp,
+                                            color = MaterialTheme.colorScheme.surface,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                        Text(
+                                            text = "Agachamento",
+                                            fontFamily = Raleway,
+                                            fontSize = 10.sp,
+                                            color = MaterialTheme.colorScheme.onSurface,
+                                            fontWeight = FontWeight.Normal
+                                        )
+                                    }
+                                    Column(
+                                        modifier = Modifier
+                                            .fillMaxWidth(),
+                                        horizontalAlignment = Alignment.CenterHorizontally
+                                    ) {
+                                        LineChart(
+                                            data = mockData
+                                        )
+                                    }
 
+                                }
                             }
                         }
 

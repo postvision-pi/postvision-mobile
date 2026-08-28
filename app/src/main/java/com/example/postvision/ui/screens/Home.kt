@@ -103,9 +103,12 @@ fun WrapperHome(
                             modifier = Modifier
                                 .width(52.dp)
                                 .height(52.dp),
+                            colors = IconButtonDefaults.iconButtonColors(
+                                containerColor = MaterialTheme.colorScheme.background,
+                            )
                         ) {
                             Image(
-                                painter = painterResource(R.drawable.imagem),
+                                painter = painterResource(R.drawable.profile_graph),
                                 contentDescription = "Imagem from profile"
                             )
                         }
