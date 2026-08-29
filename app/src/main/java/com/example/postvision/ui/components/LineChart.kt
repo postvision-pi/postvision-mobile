@@ -4,6 +4,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -31,33 +32,26 @@ fun LineChart(
 ) {
     if (data.isEmpty()) return
 
-    // Ferramenta do Compose necessária para medir e desenhar textos no Canvas
     val textMeasurer = rememberTextMeasurer()
 
-    // Os degraus do eixo Y que aparecem na sua imagem
     val ySteps = listOf(0, 30, 60, 90)
-    val maxReps = 90f // O valor máximo fixado para alinhar com o topo do gráfico
+    val maxReps = 90f
 
     Canvas(
         modifier = modifier
-            .fillMaxWidth()
-            .height(240.dp) // Aumentei um pouco a altura para acomodar os textos
+            .width(300.dp)
+            .height(160.dp)
             .padding(16.dp)
     ) {
-        // 1. Definindo as margens internas para que o gráfico não sobreponha os textos
-        val leftMargin = 80f // Espaço para os números 0, 30, 60, 90
-        val bottomMargin = 60f // Espaço para os dias 1, 3, 5...
+        val leftMargin = 80f
+        val bottomMargin = 60f
 
-        // Área útil real onde a linha e os pontos serão desenhados
         val chartWidth = size.width - leftMargin
         val chartHeight = size.height - bottomMargin
 
-        // 2. Desenhando as linhas de grade e os textos do Eixo Y (Esquerda)
         ySteps.forEach { step ->
-            // Calcula a altura exata de cada linha (0, 30, 60, 90)
             val yPos = chartHeight - ((step / maxReps) * chartHeight)
 
-            // Linha horizontal de fundo (cinza clarinho)
             drawLine(
                 color = Color(0xFFEBEBEB),
                 start = Offset(leftMargin, yPos),
@@ -65,7 +59,6 @@ fun LineChart(
                 strokeWidth = 2f
             )
 
-            // Texto numérico do eixo Y
             val textLayoutResult = textMeasurer.measure(
                 text = step.toString(),
                 style = TextStyle(fontSize = 14.sp, color = Color(0xFF4A4A4A))
@@ -79,10 +72,8 @@ fun LineChart(
             )
         }
 
-        // Espaçamento horizontal entre cada dia registrado
         val spacePerPoint = chartWidth / (data.size - 1).coerceAtLeast(1)
 
-        // 3. Desenhando os textos do Eixo X (Base)
         data.forEachIndexed { index, record ->
             val xPos = leftMargin + (index * spacePerPoint)
 
@@ -100,7 +91,6 @@ fun LineChart(
             )
         }
 
-        // 4. Desenhando a Linha do Gráfico (Path)
         val path = Path()
         data.forEachIndexed { index, record ->
             val xPos = leftMargin + (index * spacePerPoint)
@@ -119,7 +109,6 @@ fun LineChart(
             style = Stroke(width = 3.dp.toPx(), cap = StrokeCap.Round)
         )
 
-        // 5. Desenhando as bolinhas sobre a linha
         data.forEachIndexed { index, record ->
             val xPos = leftMargin + (index * spacePerPoint)
             val yPos = chartHeight - ((record.totalReps / maxReps) * chartHeight)

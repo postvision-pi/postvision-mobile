@@ -17,6 +17,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -109,15 +111,22 @@ fun WrapperProfile(
                             .padding(top = 67.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Surface(
+                        IconButton(onClick = {},
                             modifier = Modifier
                                 .size(100.dp),
-                            shape = RoundedCornerShape(50.dp),
+                            colors = IconButtonDefaults.iconButtonColors(
+                                containerColor = MaterialTheme.colorScheme.background,
+                            )
                         ) {
-
+                            Image(
+                                modifier = Modifier
+                                    .size(50.dp),
+                                painter = painterResource(R.drawable.profile_graph),
+                                contentDescription = "Imagem from profile"
+                            )
                         }
                         Text(
-                            text = "Lorem",
+                            text = "Carlos",
                             fontFamily = Raleway,
                             fontSize = 14.sp,
                             color = MaterialTheme.colorScheme.onSurface

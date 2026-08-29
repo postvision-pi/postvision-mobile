@@ -160,7 +160,7 @@ fun WrapperStatistic(
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(top = 22.dp),
+                                .padding(top = 16.dp, bottom = 6.dp),
                             Arrangement.SpaceAround
                         ) {
                             Card(
@@ -240,6 +240,7 @@ fun WrapperStatistic(
                                 }
                             }
                         }
+
                         Column(
                             modifier = Modifier
                                 .verticalScroll(scrollState)

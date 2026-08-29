@@ -33,16 +33,16 @@ fun BarChart(
     PostVisionTheme {
         val context = LocalContext.current
 
-        val barGraphHeight by remember { mutableStateOf(150.dp) }
+        val barGraphHeight by remember { mutableStateOf(125.dp) }
         val barGraphWidth by remember { mutableStateOf(12.dp) }
 
         val maxReps = weeklyData.maxOfOrNull { it.totalReps }?.coerceAtLeast(1) ?: 1
 
         Row(
             modifier = Modifier
-                .fillMaxWidth()
+                .width(340.dp)
                 .height(barGraphHeight)
-                .padding(horizontal = 12.dp),
+                .padding(horizontal = 26.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.Bottom
         ) {
