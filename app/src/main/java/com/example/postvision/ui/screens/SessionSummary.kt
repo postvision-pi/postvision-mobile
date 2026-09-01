@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -203,7 +204,39 @@ fun WrapperSessionSummary(){
                             }
                         }
                     }
+                }
 
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                        .padding(top = 13.dp)
+                ){
+                    Card(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .weight(47.5f),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.background
+                        )
+                    ) {
+
+                    }
+
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .weight(5f)
+                    )
+
+                    Card(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .weight(47.5f),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.background
+                        )
+                    ) { }
                 }
             }
         }
