@@ -70,7 +70,7 @@ fun WrapperHome(
                     selectedRoute = "home",
                     onNavigate = { route ->
                         if (route == "stats") {
-                            onBottomTabClick(NavRoutes.STATYSTICS) // Usa a rota de estatísticas
+                            onBottomTabClick(NavRoutes.STATISTICS) // Usa a rota de estatísticas
                         } else if (route == "profile") {
                             // Se tiver uma rota de perfil, coloque aqui
                             onBottomTabClick(NavRoutes.PROFILE)

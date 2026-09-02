@@ -53,7 +53,7 @@ fun WrapperProfile(
                                 onBottomTabClick(NavRoutes.HOME) // Usa a rota de estatísticas
                             } else if (route == "stats") {
                                 // Se tiver uma rota de perfil, coloque aqui
-                                onBottomTabClick(NavRoutes.STATYSTICS)
+                                onBottomTabClick(NavRoutes.STATISTICS)
                             }
                         }
                     )

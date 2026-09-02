@@ -15,6 +15,7 @@ import com.example.postvision.ui.screens.WrapperStepByStep
 import com.example.postvision.ui.screens.camerax.CameraScreen
 import com.example.postvision.MainViewModel
 import com.example.postvision.ui.screens.WrapperProfile
+import com.example.postvision.ui.screens.WrapperSessionSummary
 import com.example.postvision.ui.screens.WrapperStatistic
 import com.example.postvision.ui.screens.camerax.MainViewModel as CameraViewModel
 
@@ -26,7 +27,7 @@ fun AppNavigation(mainViewModel: MainViewModel = viewModel()) {
 
     NavHost(
         navController = navController,
-        startDestination = NavRoutes.STATYSTICS,
+        startDestination = NavRoutes.SESSION_SUMMARY,
         modifier = Modifier.fillMaxSize(),
         /*exitTransition = slideInHorizontally(
             initialOffsetX = { fullWidth -> fullWidth},
@@ -81,7 +82,7 @@ fun AppNavigation(mainViewModel: MainViewModel = viewModel()) {
             CameraScreen().CameraScreenContent(viewModel = cameraVM)
         }
 
-        composable(NavRoutes.STATYSTICS) {
+        composable(NavRoutes.STATISTICS) {
             WrapperStatistic(
                 onBottomTabClick = { route ->
                     navController.navigate(route) {
@@ -94,6 +95,21 @@ fun AppNavigation(mainViewModel: MainViewModel = viewModel()) {
 
         composable(NavRoutes.PROFILE) {
             WrapperProfile(
+                onBottomTabClick = { route ->
+                    navController.navigate(route) {
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
+            )
+        }
+
+        composable(NavRoutes.SESSION_SUMMARY) {
+            WrapperSessionSummary(
+                viewModel = mainViewModel,
+                onNavigateToChooseExercise = {
+                    navController.navigate(NavRoutes.CHOOSE_EXERCISE)
+                },
                 onBottomTabClick = { route ->
                     navController.navigate(route) {
                         launchSingleTop = true
