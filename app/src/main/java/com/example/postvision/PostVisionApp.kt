@@ -15,6 +15,7 @@ import com.example.postvision.ui.screens.WrapperStepByStep
 import com.example.postvision.ui.screens.camerax.CameraScreen
 import com.example.postvision.MainViewModel
 import com.example.postvision.ui.screens.WrapperProfile
+import com.example.postvision.ui.screens.WrapperRegister
 import com.example.postvision.ui.screens.WrapperSessionSummary
 import com.example.postvision.ui.screens.WrapperStatistic
 import com.example.postvision.ui.screens.camerax.MainViewModel as CameraViewModel
@@ -27,12 +28,8 @@ fun AppNavigation(mainViewModel: MainViewModel = viewModel()) {
 
     NavHost(
         navController = navController,
-        startDestination = NavRoutes.SESSION_SUMMARY,
+        startDestination = NavRoutes.LOGIN,
         modifier = Modifier.fillMaxSize(),
-        /*exitTransition = slideInHorizontally(
-            initialOffsetX = { fullWidth -> fullWidth},
-            animationSpec =
-        )*/
     ) {
 
         composable(NavRoutes.LOGIN) {
@@ -42,7 +39,12 @@ fun AppNavigation(mainViewModel: MainViewModel = viewModel()) {
                     navController.navigate(NavRoutes.HOME) {
                         popUpTo(NavRoutes.LOGIN) { inclusive = true }
                     }
-                }
+                },
+                onNavigateToRegister = {
+                    navController.navigate(NavRoutes.REGISTER) {
+                        popUpTo(NavRoutes.LOGIN) { inclusive = true }
+                    }
+                },
             )
         }
 
@@ -115,6 +117,17 @@ fun AppNavigation(mainViewModel: MainViewModel = viewModel()) {
                         launchSingleTop = true
                         restoreState = true
                     }
+                }
+            )
+        }
+
+        composable(NavRoutes.REGISTER) {
+            WrapperRegister(
+                onNavigateToLogin = {
+                    navController.navigate(NavRoutes.LOGIN)
+                },
+                onNavigateToHome = {
+                    navController.navigate(NavRoutes.HOME)
                 }
             )
         }

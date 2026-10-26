@@ -1,7 +1,11 @@
 package com.example.postvision.ui.screens
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,6 +42,7 @@ import com.example.postvision.ui.theme.PostVisionTheme
 import com.example.postvision.ui.theme.Raleway
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -48,10 +53,18 @@ import com.example.postvision.R
 @Composable
 fun WrapperLogin(
     viewModel: MainViewModel,
-    onNavigateToHome: () -> Unit
+    onNavigateToHome: () -> Unit,
+    onNavigateToRegister: () -> Unit
 ){
-        var email by remember { mutableStateOf("") }
-        var password by remember { mutableStateOf("") }
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val alpha by animateFloatAsState(
+        targetValue = if (isPressed) 0.5f else 1f,
+        label = "alpha"
+    )
+
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
 
     PostVisionTheme {
         Surface(modifier = Modifier
@@ -195,7 +208,15 @@ fun WrapperLogin(
                             fontFamily = Raleway,
                             fontSize = 13.sp,
                             fontWeight = FontWeight.SemiBold,
-                            color = MaterialTheme.colorScheme.primary
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier
+                                .alpha(alpha)
+                                .clickable(
+                                    interactionSource = interactionSource,
+                                    indication = null
+                                ){
+                                    onNavigateToRegister()
+                                }
                         )
                     }
                 }
@@ -210,6 +231,7 @@ fun MobilePreviewLogin(){
     val fakeViewModel: MainViewModel = viewModel()
     WrapperLogin(
         viewModel = fakeViewModel,
-        onNavigateToHome = {}
+        onNavigateToHome = {},
+        onNavigateToRegister = {}
     )
 }

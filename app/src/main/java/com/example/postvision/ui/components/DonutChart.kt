@@ -37,7 +37,7 @@ fun DonutChart(
                     startAngle = startAngle,
                     sweepAngle = sweepAngle,
                     useCenter = false,
-                    style = Stroke(width = 50f)
+                    style = Stroke(width = 40f)
                 )
 
                 startAngle += sweepAngle
@@ -45,7 +45,7 @@ fun DonutChart(
         }
         Text(
             text = percentual,
-            fontSize = 20.sp,
+            fontSize = 14.sp,
             color = MaterialTheme.colorScheme.surface,
         )
     }
