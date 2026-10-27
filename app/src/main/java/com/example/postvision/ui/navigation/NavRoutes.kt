@@ -11,5 +11,7 @@ object NavRoutes {
     const val STATISTICS = "statistics_screen"
     const val PROFILE = "profile_screen"
     const val SESSION_SUMMARY = "session_summary_screen"
-    const val REGISTER = "Register"
+    const val REGISTER = "register"
+    const val SETTINGS = "settings"
+
 }

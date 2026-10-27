@@ -61,7 +61,8 @@ import com.example.postvision.ui.theme.Raleway
 fun WrapperHome(
     viewModel: MainViewModel,
     onNavigateToChooseExercise: () -> Unit,
-    onBottomTabClick: (String) -> Unit
+    onBottomTabClick: (String) -> Unit,
+    onNavigateToProfile: () -> Unit
 ){
     PostVisionTheme{
         Scaffold(
@@ -99,7 +100,10 @@ fun WrapperHome(
                         horizontalArrangement = Arrangement.SpaceBetween,
                     )
                     {
-                        IconButton(onClick = {},
+                        IconButton(
+                            onClick = {
+                                onNavigateToProfile()
+                            },
                             modifier = Modifier
                                 .width(52.dp)
                                 .height(52.dp),
@@ -394,6 +398,7 @@ fun MobilePreview(){
     WrapperHome(
         viewModel = fakeViewModel,
         onNavigateToChooseExercise = {},
-        onBottomTabClick = {_ ->}
+        onBottomTabClick = {_ ->},
+        onNavigateToProfile = {}
     )
 }

@@ -2,10 +2,11 @@ package com.example.postvision.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -24,6 +25,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -36,12 +41,16 @@ import com.example.postvision.ui.components.BottomNavBar
 import com.example.postvision.ui.navigation.NavRoutes
 import com.example.postvision.ui.theme.PostVisionTheme
 import com.example.postvision.ui.theme.Raleway
+import com.example.postvision.ui.components.ProfileField
 
 @Composable
 fun WrapperProfile(
-    onBottomTabClick: (String) -> Unit
+    onBottomTabClick: (String) -> Unit,
+    onNavigateToSettings: () -> Unit
 ){
     val scrollState = rememberScrollState()
+    var firstName by remember { mutableStateOf("Carlos") }
+    var isEditing by remember { mutableStateOf(false) }
 
     PostVisionTheme {
             Scaffold(
@@ -50,9 +59,8 @@ fun WrapperProfile(
                         selectedRoute = "profile",
                         onNavigate = { route ->
                             if (route == "home") {
-                                onBottomTabClick(NavRoutes.HOME) // Usa a rota de estatísticas
+                                onBottomTabClick(NavRoutes.HOME)
                             } else if (route == "stats") {
-                                // Se tiver uma rota de perfil, coloque aqui
                                 onBottomTabClick(NavRoutes.STATISTICS)
                             }
                         }
@@ -101,6 +109,9 @@ fun WrapperProfile(
                                 painter = painterResource(R.drawable.config_graph),
                                 modifier = Modifier
                                     .size(20.dp)
+                                    .clickable(
+                                        onClick = onNavigateToSettings
+                                    )
                             )
                         }
                     }
@@ -173,37 +184,13 @@ fun WrapperProfile(
 
                     ) {
                         // NOME
-                        Row(
-                            modifier = Modifier
-                                .padding(top = 20.dp, start = 18.dp)
-                                .fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Image(
-                                modifier = Modifier
-                                    .size(24.dp),
-                                contentDescription = "Image from profile icon",
-                                painter = painterResource(R.drawable.profile_icon_graph),
-                            )
-                            Column(
-                                modifier = Modifier
-                                    .padding(start = 15.dp)
-                            ) {
-                                Text(
-                                    text = "Nome",
-                                    fontSize = 13.sp,
-                                    fontFamily = Raleway,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = MaterialTheme.colorScheme.onSurface
-                                )
-                                Text(
-                                    text = "Carlos",
-                                    fontSize = 13.sp,
-                                    fontFamily = Raleway,
-                                    color = MaterialTheme.colorScheme.onSurface
-                                )
-                            }
-                        }
+                        ProfileField(
+                            icon = painterResource(R.drawable.profile_icon_graph),
+                            label = "Nome",
+                            value = firstName,
+                            isEditing = isEditing,
+                            onValueChange = { firstName = it }
+                        )
 
                         // SOBRENOME
                         Row(
@@ -481,6 +468,7 @@ fun WrapperProfile(
 @Composable
 fun MobilePreviewProfile(){
     WrapperProfile(
-        onBottomTabClick = {}
+        onBottomTabClick = {},
+        onNavigateToSettings = {}
     )
 }

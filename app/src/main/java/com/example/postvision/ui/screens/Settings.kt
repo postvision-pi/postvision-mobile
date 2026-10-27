@@ -27,8 +27,10 @@ import com.example.postvision.ui.theme.PostVisionTheme
 import com.example.postvision.ui.theme.Raleway
 
 @Composable
-fun WrapperSettigs(){
-    PostVisionTheme(){
+fun WrapperSettings(
+    onNavigateProfile: () -> Unit
+){
+    PostVisionTheme{
         Scaffold(
             modifier = Modifier
                 .fillMaxWidth()
@@ -43,7 +45,9 @@ fun WrapperSettigs(){
                         .height(51.dp)
                         .offset(y = -36.dp)
                         .align(Alignment.Center),
-                        onClick = {},
+                        onClick = {
+                            onNavigateProfile()
+                        },
                         shape = RoundedCornerShape(10.dp)
 
 
@@ -75,6 +79,7 @@ fun WrapperSettigs(){
                         fontSize = 16.sp,
                         fontFamily = Raleway,
                         fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
 
@@ -93,7 +98,8 @@ fun WrapperSettigs(){
                             "Acessibilidade",
                             fontSize = 24.sp,
                             fontFamily = Raleway,
-                            fontWeight = FontWeight.SemiBold
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.onSurface
                         )
 
                         Row(
@@ -104,6 +110,7 @@ fun WrapperSettigs(){
                                 "Alterar tema",
                                 fontSize = 16.sp,
                                 fontFamily = Raleway,
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                         }
                         Row(
@@ -113,6 +120,7 @@ fun WrapperSettigs(){
                                 "Tamanho da fonte",
                                 fontSize = 16.sp,
                                 fontFamily = Raleway,
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                         }
                         Row(
@@ -122,6 +130,7 @@ fun WrapperSettigs(){
                                 "Idioma",
                                 fontSize = 16.sp,
                                 fontFamily = Raleway,
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                         }
                     }
@@ -134,7 +143,8 @@ fun WrapperSettigs(){
                             "Privacidade e Dados",
                             fontSize = 24.sp,
                             fontFamily = Raleway,
-                            fontWeight = FontWeight.SemiBold
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.onSurface
                         )
 
                         Row(
@@ -145,6 +155,7 @@ fun WrapperSettigs(){
                                 "Histórico de análises realizadas",
                                 fontSize = 16.sp,
                                 fontFamily = Raleway,
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                         }
                         Row(
@@ -154,6 +165,7 @@ fun WrapperSettigs(){
                                 "Baixar relatório de desempenho",
                                 fontSize = 16.sp,
                                 fontFamily = Raleway,
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                         }
                         Row(
@@ -163,6 +175,7 @@ fun WrapperSettigs(){
                                 "Limpar dados armazenados",
                                 fontSize = 16.sp,
                                 fontFamily = Raleway,
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                         }
                     }
@@ -175,7 +188,8 @@ fun WrapperSettigs(){
                             "Ajuda e Suporte",
                             fontSize = 24.sp,
                             fontFamily = Raleway,
-                            fontWeight = FontWeight.SemiBold
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.onSurface
                         )
 
                         Row(
@@ -186,6 +200,7 @@ fun WrapperSettigs(){
                                 "FAQ",
                                 fontSize = 16.sp,
                                 fontFamily = Raleway,
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                         }
                         Row(
@@ -195,6 +210,7 @@ fun WrapperSettigs(){
                                 "Enviar feedback",
                                 fontSize = 16.sp,
                                 fontFamily = Raleway,
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                         }
                         Row(
@@ -204,6 +220,7 @@ fun WrapperSettigs(){
                                 "Reportar problema",
                                 fontSize = 16.sp,
                                 fontFamily = Raleway,
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                         }
                         Row(
@@ -213,6 +230,7 @@ fun WrapperSettigs(){
                                 "Contato do suporte",
                                 fontSize = 16.sp,
                                 fontFamily = Raleway,
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                         }
                     }
@@ -225,5 +243,7 @@ fun WrapperSettigs(){
 @Preview
 @Composable
 fun PreviewSettings(){
-    WrapperSettigs()
+    WrapperSettings(
+        onNavigateProfile = {}
+    )
 }
