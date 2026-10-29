@@ -1,12 +1,12 @@
 package com.example.postvision.ui.screens
 
+import ProfileIconButton
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,8 +16,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -25,10 +28,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -36,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.postvision.R
 import com.example.postvision.ui.components.BottomNavBar
 import com.example.postvision.ui.navigation.NavRoutes
@@ -45,12 +46,18 @@ import com.example.postvision.ui.components.ProfileField
 
 @Composable
 fun WrapperProfile(
+    viewModel: ProfileViewModel,
+    userEmail: String,
+    token: String,
     onBottomTabClick: (String) -> Unit,
     onNavigateToSettings: () -> Unit
 ){
     val scrollState = rememberScrollState()
-    var firstName by remember { mutableStateOf("Carlos") }
-    var isEditing by remember { mutableStateOf(false) }
+    val userName = viewModel.firstName + " " + viewModel.lastName
+
+    if (userEmail.isNotEmpty() && token.isNotEmpty()) {
+        viewModel.loadUserProfile(userEmail, token)
+    }
 
     PostVisionTheme {
             Scaffold(
@@ -122,22 +129,13 @@ fun WrapperProfile(
                             .padding(top = 67.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        IconButton(onClick = {},
-                            modifier = Modifier
-                                .size(100.dp),
-                            colors = IconButtonDefaults.iconButtonColors(
-                                containerColor = MaterialTheme.colorScheme.background,
-                            )
-                        ) {
-                            Image(
-                                modifier = Modifier
-                                    .size(50.dp),
-                                painter = painterResource(R.drawable.profile_graph),
-                                contentDescription = "Imagem from profile"
-                            )
-                        }
+                        ProfileIconButton(
+                            firstName = viewModel.firstName,
+                            lastName = viewModel.lastName,
+                            modifier = Modifier.size(100.dp)
+                        )
                         Text(
-                            text = "Carlos",
+                            text = viewModel.firstName,
                             fontFamily = Raleway,
                             fontSize = 14.sp,
                             color = MaterialTheme.colorScheme.onSurface
@@ -183,276 +181,78 @@ fun WrapperProfile(
                         shape = RoundedCornerShape(20.dp)
 
                     ) {
-                        // NOME
                         ProfileField(
                             icon = painterResource(R.drawable.profile_icon_graph),
                             label = "Nome",
-                            value = firstName,
-                            isEditing = isEditing,
-                            onValueChange = { firstName = it }
+                            value = viewModel.firstName,
+                            isEditing = viewModel.isEditing,
+                            onValueChange = { viewModel.firstName = it }
+                        )
+                        ProfileField(
+                            icon = painterResource(R.drawable.profile_icon_graph),
+                            label = "Sobrenome",
+                            value = viewModel.lastName,
+                            isEditing = viewModel.isEditing,
+                            onValueChange = { viewModel.lastName = it }
+                        )
+                        ProfileField(
+                            icon = painterResource(R.drawable.profile_icon_graph),
+                            label = "Gênero",
+                            value = viewModel.gender,
+                            isEditing = viewModel.isEditing,
+                            onValueChange = { viewModel.gender = it }
+                        )
+                        ProfileField(
+                            icon = painterResource(R.drawable.email_icon_graph),
+                            label = "Email",
+                            value = viewModel.email,
+                            isEditing = viewModel.isEditing,
+                            onValueChange = { viewModel.email = it }
+                        )
+                        ProfileField(
+                            icon = painterResource(R.drawable.phone_icon_graph),
+                            label = "Telefone",
+                            value = viewModel.phone,
+                            isEditing = viewModel.isEditing,
+                            onValueChange = { viewModel.phone = it }
+                        )
+                        ProfileField(
+                            icon = painterResource(R.drawable.idcard_icon_graph),
+                            label = "CPF",
+                            value = viewModel.cpf,
+                            isEditing = viewModel.isEditing,
+                            onValueChange = { viewModel.cpf = it }
+                        )
+                        ProfileField(
+                            icon = painterResource(R.drawable.data_icon_graph),
+                            label = "Data de Nascimento",
+                            value = viewModel.birthDate,
+                            isEditing = viewModel.isEditing,
+                            onValueChange = { viewModel.birthDate = it }
+                        )
+                        ProfileField(
+                            icon = painterResource(R.drawable.password_icon_graph),
+                            label = "Senha",
+                            value = viewModel.password,
+                            isEditing = viewModel.isEditing,
+                            onValueChange = { viewModel.password = it }
                         )
 
-                        // SOBRENOME
-                        Row(
+                        Button(
+                            onClick = {
+                                if (viewModel.isEditing) viewModel.updateUserProfile()
+                                else viewModel.isEditing = true
+                            },
                             modifier = Modifier
-                                .padding(top = 20.dp, start = 18.dp)
-                                .fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically
+                                .fillMaxWidth()
+                                .padding(18.dp),
+                            enabled = !viewModel.isLoading,
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                         ) {
-                            Image(
-                                modifier = Modifier
-                                    .size(24.dp),
-                                contentDescription = "Image from profile icon",
-                                painter = painterResource(R.drawable.profile_icon_graph),
-                            )
-                            Column(
-                                modifier = Modifier
-                                    .padding(start = 15.dp)
-                            ) {
-                                Text(
-                                    text = "Sobrenome",
-                                    fontSize = 13.sp,
-                                    fontFamily = Raleway,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = MaterialTheme.colorScheme.onSurface
-                                )
-                                Text(
-                                    text = "Silva",
-                                    fontSize = 13.sp,
-                                    fontFamily = Raleway,
-                                    color = MaterialTheme.colorScheme.onSurface
-                                )
-                            }
-                        }
-
-                        // GÊNERO
-                        Row(
-                            modifier = Modifier
-                                .padding(top = 20.dp, start = 18.dp)
-                                .fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Image(
-                                modifier = Modifier
-                                    .size(24.dp),
-                                contentDescription = "Image from profile icon",
-                                painter = painterResource(R.drawable.profile_icon_graph),
-                            )
-                            Column(
-                                modifier = Modifier
-                                    .padding(start = 15.dp)
-                            ) {
-                                Text(
-                                    text = "Gênero",
-                                    fontSize = 13.sp,
-                                    fontFamily = Raleway,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = MaterialTheme.colorScheme.onSurface
-                                )
-                                Text(
-                                    text = "Masculino",
-                                    fontSize = 13.sp,
-                                    fontFamily = Raleway,
-                                    color = MaterialTheme.colorScheme.onSurface
-                                )
-                            }
-                        }
-
-                        // EMAIL
-                        Row(
-                            modifier = Modifier
-                                .padding(top = 20.dp, start = 18.dp)
-                                .fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Image(
-                                modifier = Modifier
-                                    .size(24.dp),
-                                contentDescription = "Image from profile icon",
-                                painter = painterResource(R.drawable.email_icon_graph),
-                            )
-                            Column(
-                                modifier = Modifier
-                                    .padding(start = 15.dp)
-                            ) {
-                                Text(
-                                    text = "Email",
-                                    fontSize = 13.sp,
-                                    fontFamily = Raleway,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = MaterialTheme.colorScheme.onSurface
-                                )
-                                Text(
-                                    text = "renanzanettio@gmail.com",
-                                    fontSize = 13.sp,
-                                    fontFamily = Raleway,
-                                    color = MaterialTheme.colorScheme.onSurface
-                                )
-                            }
-                        }
-
-                        // TELEFONE
-                        Row(
-                            modifier = Modifier
-                                .padding(top = 20.dp, start = 18.dp)
-                                .fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Image(
-                                modifier = Modifier
-                                    .size(24.dp),
-                                contentDescription = "Image from profile icon",
-                                painter = painterResource(R.drawable.phone_icon_graph),
-                            )
-                            Column(
-                                modifier = Modifier
-                                    .padding(start = 15.dp)
-                            ) {
-                                Text(
-                                    text = "Telefone",
-                                    fontSize = 13.sp,
-                                    fontFamily = Raleway,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = MaterialTheme.colorScheme.onSurface
-                                )
-                                Text(
-                                    text = "(13)99605-4131",
-                                    fontSize = 13.sp,
-                                    fontFamily = Raleway,
-                                    color = MaterialTheme.colorScheme.onSurface
-                                )
-                            }
-                        }
-
-                        // CPF
-                        Row(
-                            modifier = Modifier
-                                .padding(top = 20.dp, start = 18.dp)
-                                .fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Image(
-                                modifier = Modifier
-                                    .size(24.dp),
-                                contentDescription = "Image from profile icon",
-                                painter = painterResource(R.drawable.idcard_icon_graph),
-                            )
-                            Column(
-                                modifier = Modifier
-                                    .padding(start = 15.dp)
-                            ) {
-                                Text(
-                                    text = "CPF",
-                                    fontSize = 13.sp,
-                                    fontFamily = Raleway,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = MaterialTheme.colorScheme.onSurface
-                                )
-                                Text(
-                                    text = "190.203.400-14",
-                                    fontSize = 13.sp,
-                                    fontFamily = Raleway,
-                                    color = MaterialTheme.colorScheme.onSurface
-                                )
-                            }
-                        }
-
-                        // RG
-                        Row(
-                            modifier = Modifier
-                                .padding(top = 20.dp, start = 18.dp)
-                                .fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Image(
-                                modifier = Modifier
-                                    .size(24.dp),
-                                contentDescription = "Image from profile icon",
-                                painter = painterResource(R.drawable.idcard_icon_graph),
-                            )
-                            Column(
-                                modifier = Modifier
-                                    .padding(start = 15.dp)
-                            ) {
-                                Text(
-                                    text = "RG",
-                                    fontSize = 13.sp,
-                                    fontFamily = Raleway,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = MaterialTheme.colorScheme.onSurface
-                                )
-                                Text(
-                                    text = "190.203.400-14",
-                                    fontSize = 13.sp,
-                                    fontFamily = Raleway,
-                                    color = MaterialTheme.colorScheme.onSurface
-                                )
-                            }
-                        }
-
-                        // DATA DE NASCIMENTO
-                        Row(
-                            modifier = Modifier
-                                .padding(top = 20.dp, start = 18.dp)
-                                .fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Image(
-                                modifier = Modifier
-                                    .size(24.dp),
-                                contentDescription = "Image from profile icon",
-                                painter = painterResource(R.drawable.data_icon_graph),
-                            )
-                            Column(
-                                modifier = Modifier
-                                    .padding(start = 15.dp)
-                            ) {
-                                Text(
-                                    text = "Data de Nascimento",
-                                    fontSize = 13.sp,
-                                    fontFamily = Raleway,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = MaterialTheme.colorScheme.onSurface
-                                )
-                                Text(
-                                    text = "02/03/2006",
-                                    fontSize = 13.sp,
-                                    fontFamily = Raleway,
-                                    color = MaterialTheme.colorScheme.onSurface
-                                )
-                            }
-                        }
-
-                        // SENHA
-                        Row(
-                            modifier = Modifier
-                                .padding(top = 20.dp, start = 18.dp)
-                                .fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Image(
-                                modifier = Modifier
-                                    .size(24.dp),
-                                contentDescription = "Image from profile icon",
-                                painter = painterResource(R.drawable.password_icon_graph),
-                            )
-                            Column(
-                                modifier = Modifier
-                                    .padding(start = 15.dp)
-                            ) {
-                                Text(
-                                    text = "Senha",
-                                    fontSize = 13.sp,
-                                    fontFamily = Raleway,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = MaterialTheme.colorScheme.onSurface
-                                )
-                                Text(
-                                    text = "***********",
-                                    fontSize = 13.sp,
-                                    fontFamily = Raleway,
-                                    color = MaterialTheme.colorScheme.onSurface
-                                )
+                            if (viewModel.isLoading) {
+                                CircularProgressIndicator(color = MaterialTheme.colorScheme.onPrimary, modifier = Modifier.size(24.dp))
+                            } else {
+                                Text(if (viewModel.isEditing) "Salvar" else "Editar Perfil", color = MaterialTheme.colorScheme.background)
                             }
                         }
                     }
@@ -467,7 +267,11 @@ fun WrapperProfile(
 @Preview
 @Composable
 fun MobilePreviewProfile(){
+    val fakeViewModel: ProfileViewModel = viewModel()
     WrapperProfile(
+        viewModel = fakeViewModel,
+        userEmail = "",
+        token = "",
         onBottomTabClick = {},
         onNavigateToSettings = {}
     )

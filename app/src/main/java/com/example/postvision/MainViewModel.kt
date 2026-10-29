@@ -8,13 +8,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.auth0.android.jwt.JWT
 import com.example.postvision.ui.model.User
-import com.example.postvision.ui.network.ApiService
+import com.example.postvision.ui.network.RetrofitClient
 import com.example.postvision.ui.repository.UserRepository
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+
 
 class MainViewModel: ViewModel(){
+    var authToken by mutableStateOf("")
     // Estados da UI
     var loggedUser by mutableStateOf<User?>(null)
     var isLoading by mutableStateOf(false)
@@ -22,11 +22,7 @@ class MainViewModel: ViewModel(){
 
 
     // Configuração do Retrofit
-    private val api = Retrofit.Builder()
-        .baseUrl("https://postvision-api.onrender.com/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-        .create(ApiService::class.java)
+    private val api = RetrofitClient.apiService
 
     private val repository = UserRepository(api)
 
@@ -38,6 +34,8 @@ class MainViewModel: ViewModel(){
 
                 val response = repository.login(email, pass)
                 if(response.token != null){
+                    authToken = response.token
+
                     val jwt = JWT(response.token)
                     val idView = jwt.getClaim("id_usuario").asString()
                     val firstNameView = jwt.getClaim("nome_usuario").asString() ?: "Usuário"

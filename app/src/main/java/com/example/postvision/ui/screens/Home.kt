@@ -1,5 +1,6 @@
 package com.example.postvision.ui.screens
 
+import ProfileIconButton
 import android.health.connect.datatypes.Device
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -100,22 +102,14 @@ fun WrapperHome(
                         horizontalArrangement = Arrangement.SpaceBetween,
                     )
                     {
-                        IconButton(
-                            onClick = {
-                                onNavigateToProfile()
-                            },
-                            modifier = Modifier
-                                .width(52.dp)
-                                .height(52.dp),
-                            colors = IconButtonDefaults.iconButtonColors(
-                                containerColor = MaterialTheme.colorScheme.background,
-                            )
-                        ) {
-                            Image(
-                                painter = painterResource(R.drawable.profile_graph),
-                                contentDescription = "Imagem from profile"
-                            )
-                        }
+                        ProfileIconButton(
+                            firstName = viewModel.loggedUser?.firstName ?: "U",
+                            lastName = viewModel.loggedUser?.lastName ?: "",
+                            modifier = Modifier.size(52.dp),
+                            onClick = { onNavigateToProfile() },
+                            fontSize = 12.sp,
+                        )
+
                         IconButton(onClick = {},
                             modifier = Modifier
                                 .width(21.dp)

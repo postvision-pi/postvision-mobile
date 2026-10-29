@@ -14,12 +14,17 @@ import com.example.postvision.ui.screens.WrapperLogin
 import com.example.postvision.ui.screens.WrapperStepByStep
 import com.example.postvision.ui.screens.camerax.CameraScreen
 import com.example.postvision.MainViewModel
+import com.example.postvision.ui.repository.UserRepository
+import com.example.postvision.ui.screens.ProfileViewModel
 import com.example.postvision.ui.screens.WrapperProfile
 import com.example.postvision.ui.screens.WrapperRegister
 import com.example.postvision.ui.screens.WrapperSessionSummary
 import com.example.postvision.ui.screens.WrapperSettings
 import com.example.postvision.ui.screens.WrapperStatistic
+import retrofit2.Retrofit
 import com.example.postvision.ui.screens.camerax.MainViewModel as CameraViewModel
+import com.example.postvision.ui.network.RetrofitClient
+import com.example.postvision.ui.screens.ProfileViewModelFactory
 
 
 @Composable
@@ -100,7 +105,17 @@ fun AppNavigation(mainViewModel: MainViewModel = viewModel()) {
         }
 
         composable(NavRoutes.PROFILE) {
+            val apiService = RetrofitClient.apiService
+            val userRepository = UserRepository(apiService)
+
+            val profileViewModel: ProfileViewModel = viewModel(
+                factory = ProfileViewModelFactory(userRepository)
+            )
+
             WrapperProfile(
+                viewModel = profileViewModel,
+                userEmail = mainViewModel.loggedUser?.email ?: "",
+                token = mainViewModel.authToken,
                 onBottomTabClick = { route ->
                     navController.navigate(route) {
                         launchSingleTop = true
