@@ -15,4 +15,7 @@ class UserRepository(private val apiService: ApiService){
 
     suspend fun updateUser(userId: String, token: String, request: UpdateUserRequest) =
         apiService.updateUser(userId, "Bearer $token", request)
+
+    suspend fun getUserReports(userId: String, token: String) =
+        apiService.getUserReports(userId, "Bearer $token")
 }

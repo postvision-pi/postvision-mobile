@@ -1,5 +1,6 @@
 package com.example.postvision.ui.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,7 +30,8 @@ import com.example.postvision.ui.theme.Raleway
 
 @Composable
 fun WrapperSettings(
-    onNavigateProfile: () -> Unit
+    onNavigateProfile: () -> Unit,
+    onLogout: () -> Unit
 ){
     PostVisionTheme{
         Scaffold(
@@ -49,7 +52,6 @@ fun WrapperSettings(
                             onNavigateProfile()
                         },
                         shape = RoundedCornerShape(10.dp)
-
 
                     ) {
                         Text(
@@ -86,13 +88,12 @@ fun WrapperSettings(
                 Column(
                     modifier = Modifier
                         .width(345.dp)
-                        .height(468.dp)
+                        .height(550.dp)
                         .padding(top = 52.dp),
                     verticalArrangement = Arrangement.SpaceAround
                 ) {
                     Column(
-                        modifier = Modifier
-                            .weight(1f)
+                        modifier = Modifier.weight(1f)
                     ) {
                         Text(
                             "Acessibilidade",
@@ -102,42 +103,19 @@ fun WrapperSettings(
                             color = MaterialTheme.colorScheme.onSurface
                         )
 
-                        Row(
-                            modifier = Modifier
-                                .padding(top = 10.dp)
-                        ){
-                            Text(
-                                "Alterar tema",
-                                fontSize = 16.sp,
-                                fontFamily = Raleway,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
+                        Row(modifier = Modifier.padding(top = 10.dp)){
+                            Text("Alterar tema", fontSize = 16.sp, fontFamily = Raleway, color = MaterialTheme.colorScheme.onSurface)
                         }
-                        Row(
-
-                        ){
-                            Text(
-                                "Tamanho da fonte",
-                                fontSize = 16.sp,
-                                fontFamily = Raleway,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
+                        Row {
+                            Text("Tamanho da fonte", fontSize = 16.sp, fontFamily = Raleway, color = MaterialTheme.colorScheme.onSurface)
                         }
-                        Row(
-
-                        ){
-                            Text(
-                                "Idioma",
-                                fontSize = 16.sp,
-                                fontFamily = Raleway,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
+                        Row {
+                            Text("Idioma", fontSize = 16.sp, fontFamily = Raleway, color = MaterialTheme.colorScheme.onSurface)
                         }
                     }
 
                     Column(
-                        modifier = Modifier
-                            .weight(1f)
+                        modifier = Modifier.weight(1f)
                     ) {
                         Text(
                             "Privacidade e Dados",
@@ -147,42 +125,19 @@ fun WrapperSettings(
                             color = MaterialTheme.colorScheme.onSurface
                         )
 
-                        Row(
-                            modifier = Modifier
-                                .padding(top = 10.dp)
-                        ){
-                            Text(
-                                "Histórico de análises realizadas",
-                                fontSize = 16.sp,
-                                fontFamily = Raleway,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
+                        Row(modifier = Modifier.padding(top = 10.dp)){
+                            Text("Histórico de análises realizadas", fontSize = 16.sp, fontFamily = Raleway, color = MaterialTheme.colorScheme.onSurface)
                         }
-                        Row(
-
-                        ){
-                            Text(
-                                "Baixar relatório de desempenho",
-                                fontSize = 16.sp,
-                                fontFamily = Raleway,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
+                        Row {
+                            Text("Baixar relatório de desempenho", fontSize = 16.sp, fontFamily = Raleway, color = MaterialTheme.colorScheme.onSurface)
                         }
-                        Row(
-
-                        ){
-                            Text(
-                                "Limpar dados armazenados",
-                                fontSize = 16.sp,
-                                fontFamily = Raleway,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
+                        Row {
+                            Text("Limpar dados armazenados", fontSize = 16.sp, fontFamily = Raleway, color = MaterialTheme.colorScheme.onSurface)
                         }
                     }
 
                     Column(
-                        modifier = Modifier
-                            .weight(1f)
+                        modifier = Modifier.weight(1f)
                     ) {
                         Text(
                             "Ajuda e Suporte",
@@ -192,45 +147,42 @@ fun WrapperSettings(
                             color = MaterialTheme.colorScheme.onSurface
                         )
 
+                        Row(modifier = Modifier.padding(top = 10.dp)){
+                            Text("FAQ", fontSize = 16.sp, fontFamily = Raleway, color = MaterialTheme.colorScheme.onSurface)
+                        }
+                        Row {
+                            Text("Enviar feedback", fontSize = 16.sp, fontFamily = Raleway, color = MaterialTheme.colorScheme.onSurface)
+                        }
+                        Row {
+                            Text("Reportar problema", fontSize = 16.sp, fontFamily = Raleway, color = MaterialTheme.colorScheme.onSurface)
+                        }
+                        Row {
+                            Text("Contato do suporte", fontSize = 16.sp, fontFamily = Raleway, color = MaterialTheme.colorScheme.onSurface)
+                        }
+                    }
+
+                    Column(
+                        modifier = Modifier.weight(0.5f)
+                    ) {
+                        Text(
+                            "Conta",
+                            fontSize = 24.sp,
+                            fontFamily = Raleway,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+
                         Row(
                             modifier = Modifier
                                 .padding(top = 10.dp)
+                                .clickable { onLogout() }
                         ){
                             Text(
-                                "FAQ",
+                                "Sair da conta",
                                 fontSize = 16.sp,
                                 fontFamily = Raleway,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
-                        }
-                        Row(
-
-                        ){
-                            Text(
-                                "Enviar feedback",
-                                fontSize = 16.sp,
-                                fontFamily = Raleway,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
-                        }
-                        Row(
-
-                        ){
-                            Text(
-                                "Reportar problema",
-                                fontSize = 16.sp,
-                                fontFamily = Raleway,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
-                        }
-                        Row(
-
-                        ){
-                            Text(
-                                "Contato do suporte",
-                                fontSize = 16.sp,
-                                fontFamily = Raleway,
-                                color = MaterialTheme.colorScheme.onSurface
+                                color = Color(0xFFD32F2F),
+                                fontWeight = FontWeight.Bold
                             )
                         }
                     }
@@ -244,6 +196,7 @@ fun WrapperSettings(
 @Composable
 fun PreviewSettings(){
     WrapperSettings(
-        onNavigateProfile = {}
+        onNavigateProfile = {},
+        onLogout = {}
     )
 }

@@ -1,5 +1,6 @@
 package com.example.postvision.ui.network
 
+import com.example.postvision.ui.model.ExerciseReport
 import com.example.postvision.ui.model.LoginResponse
 import com.example.postvision.ui.model.UpdateUserRequest
 import com.example.postvision.ui.model.User
@@ -29,4 +30,10 @@ interface ApiService{
         @Header("Authorization") token: String,
         @Body request: UpdateUserRequest
     ): Response<User>
+
+    @GET("session/{userId}")
+    suspend fun getUserReports(
+        @Path("userId") userId: String,
+        @Header("Authorization") token: String
+    ): Response<List<ExerciseReport>>
 }

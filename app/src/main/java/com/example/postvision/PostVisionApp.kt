@@ -3,6 +3,7 @@ package com.example.postvision
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -25,6 +26,8 @@ import retrofit2.Retrofit
 import com.example.postvision.ui.screens.camerax.MainViewModel as CameraViewModel
 import com.example.postvision.ui.network.RetrofitClient
 import com.example.postvision.ui.screens.ProfileViewModelFactory
+import com.example.postvision.ui.screens.StatisticsViewModel
+import androidx.lifecycle.ViewModelProvider
 
 
 @Composable
@@ -94,14 +97,34 @@ fun AppNavigation(mainViewModel: MainViewModel = viewModel()) {
         }
 
         composable(NavRoutes.STATISTICS) {
+            val statsViewModel: StatisticsViewModel = viewModel(
+                factory = object : ViewModelProvider.Factory {
+                    @Suppress("UNCHECKED_CAST")
+                    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                        return StatisticsViewModel(UserRepository(RetrofitClient.apiService)) as T
+                    }
+                }
+            )
+
+            val userId = mainViewModel.loggedUser?.id ?: ""
+            val token = mainViewModel.authToken
+
             WrapperStatistic(
+                viewModel = statsViewModel,
+                mainViewModel = mainViewModel,
+                userId = userId,
+                token = token,
                 onBottomTabClick = { route ->
                     navController.navigate(route) {
                         launchSingleTop = true
                         restoreState = true
                     }
+                },
+                onNavigateToProfile = {
+                    navController.navigate(NavRoutes.PROFILE)
                 }
             )
+
         }
 
         composable(NavRoutes.PROFILE) {
@@ -156,8 +179,11 @@ fun AppNavigation(mainViewModel: MainViewModel = viewModel()) {
 
         composable(NavRoutes.SETTINGS) {
             WrapperSettings(
-                onNavigateProfile = {
-                    navController.navigate(NavRoutes.PROFILE)
+                onNavigateProfile = { navController.navigate(NavRoutes.PROFILE) },
+                onLogout = {
+                    navController.navigate(NavRoutes.LOGIN) {
+                        popUpTo(0) { inclusive = true }
+                    }
                 }
             )
         }

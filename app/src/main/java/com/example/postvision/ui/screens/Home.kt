@@ -107,7 +107,7 @@ fun WrapperHome(
                             lastName = viewModel.loggedUser?.lastName ?: "",
                             modifier = Modifier.size(52.dp),
                             onClick = { onNavigateToProfile() },
-                            fontSize = 12.sp,
+                            fontSize = 20.sp,
                         )
 
                         IconButton(onClick = {},
