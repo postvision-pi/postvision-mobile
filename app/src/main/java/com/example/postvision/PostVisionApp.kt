@@ -34,6 +34,8 @@ import androidx.lifecycle.ViewModelProvider
 fun AppNavigation(mainViewModel: MainViewModel = viewModel()) {
 
     val navController = rememberNavController()
+    val mainViewModel: MainViewModel = viewModel()
+    val cameraViewModel: com.example.postvision.ui.screens.camerax.MainViewModel = viewModel()
 
     NavHost(
         navController = navController,
@@ -92,8 +94,12 @@ fun AppNavigation(mainViewModel: MainViewModel = viewModel()) {
         }
 
         composable(NavRoutes.CAMERA_SCREEN) {
-            val cameraVM: CameraViewModel = viewModel()
-            CameraScreen().CameraScreenContent(viewModel = cameraVM)
+            CameraScreen().CameraScreenContent(
+                viewModel = cameraViewModel,
+                onFinishSession = {
+                    navController.navigate(NavRoutes.SESSION_SUMMARY)
+                }
+            )
         }
 
         composable(NavRoutes.STATISTICS) {
@@ -152,8 +158,10 @@ fun AppNavigation(mainViewModel: MainViewModel = viewModel()) {
         }
 
         composable(NavRoutes.SESSION_SUMMARY) {
+
             WrapperSessionSummary(
-                viewModel = mainViewModel,
+                viewModel = cameraViewModel,
+                mainViewModel = mainViewModel,
                 onNavigateToChooseExercise = {
                     navController.navigate(NavRoutes.CHOOSE_EXERCISE)
                 },

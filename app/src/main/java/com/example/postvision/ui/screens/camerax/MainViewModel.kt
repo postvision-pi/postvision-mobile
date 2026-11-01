@@ -8,7 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.google.mediapipe.tasks.vision.core.RunningMode
-import androidx.camera.core.CameraSelector // IMPORT NECESSÁRIO
+import androidx.camera.core.CameraSelector
 import com.google.mediapipe.tasks.components.containers.NormalizedLandmark
 import kotlin.math.abs
 import kotlin.math.atan2
@@ -18,31 +18,21 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-/**
- * ViewModel para manejar la lógica de la aplicación, incluyendo la configuración del PoseLandmarker
- * y el estado de la pantalla de galería.
- */
 class MainViewModel : ViewModel() {
     var currentModel by mutableIntStateOf(PoseLandmarkerHelper.MODEL_POSE_LANDMARKER_LITE)
         private set
-
     var currentDelegate by mutableIntStateOf(PoseLandmarkerHelper.DELEGATE_GPU)
         private set
-
     var currentMinPoseDetectionConfidence by mutableFloatStateOf(PoseLandmarkerHelper.DEFAULT_POSE_DETECTION_CONFIDENCE)
         private set
-
     var currentMinPoseTrackingConfidence by mutableFloatStateOf(PoseLandmarkerHelper.DEFAULT_POSE_TRACKING_CONFIDENCE)
         private set
-
     var currentMinPosePresenceConfidence by mutableFloatStateOf(PoseLandmarkerHelper.DEFAULT_POSE_PRESENCE_CONFIDENCE)
         private set
 
-    // NOVO: Estado para armazenar o CameraSelector atual (inicia com câmera frontal)
     var cameraSelector: CameraSelector by mutableStateOf(CameraSelector.DEFAULT_FRONT_CAMERA)
         private set
 
-    // NOVO: Função para alternar a câmera
     fun switchCamera() {
         cameraSelector = if (cameraSelector == CameraSelector.DEFAULT_FRONT_CAMERA) {
             CameraSelector.DEFAULT_BACK_CAMERA
@@ -51,26 +41,11 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    // Funções de configuração dos parâmetros do Pose Landmarker
-    fun setModel(model: Int) {
-        currentModel = model
-    }
-
-    fun setDelegate(delegate: Int) {
-        currentDelegate = delegate
-    }
-
-    fun setMinPoseDetectionConfidence(confidence: Float) {
-        currentMinPoseDetectionConfidence = confidence.coerceIn(0.1f, 0.9f)
-    }
-
-    fun setMinPoseTrackingConfidence(confidence: Float) {
-        currentMinPoseTrackingConfidence = confidence.coerceIn(0.1f, 0.9f)
-    }
-
-    fun setMinPosePresenceConfidence(confidence: Float) {
-        currentMinPosePresenceConfidence = confidence.coerceIn(0.1f, 0.9f)
-    }
+    fun setModel(model: Int) { currentModel = model }
+    fun setDelegate(delegate: Int) { currentDelegate = delegate }
+    fun setMinPoseDetectionConfidence(confidence: Float) { currentMinPoseDetectionConfidence = confidence.coerceIn(0.1f, 0.9f) }
+    fun setMinPoseTrackingConfidence(confidence: Float) { currentMinPoseTrackingConfidence = confidence.coerceIn(0.1f, 0.9f) }
+    fun setMinPosePresenceConfidence(confidence: Float) { currentMinPosePresenceConfidence = confidence.coerceIn(0.1f, 0.9f) }
 
     fun createPoseLandmarkerHelper(runningMode: RunningMode, context: Context): PoseLandmarkerHelper {
         return PoseLandmarkerHelper(
@@ -84,92 +59,129 @@ class MainViewModel : ViewModel() {
         )
     }
 
-    // FUNCIONALIDADE DE IDENTIFCAR
     var squatCount by mutableIntStateOf(0)
         private set
-    private var isSquatting = false // Trava para não contar múltiplas vezes no mesmo movimento
+
+    var incorrectSquats by mutableIntStateOf(0)
+        private set
+    var sessionDurationSeconds by mutableIntStateOf(0)
+        private set
+    private var sessionStartTime: Long = 0
+    private var currentSquatHasError = false
 
     var isRecording by mutableStateOf(false)
     var countDownTime by mutableStateOf(0)
-
     var exerciceStage by mutableStateOf(0)
-
     var hasError by mutableStateOf(false)
     var errorLocation by mutableStateOf<Offset?>(null)
 
+    // NOVO: Verifica se o corpo inteiro está na câmara
+    var isFullyFramed by mutableStateOf(false)
+        private set
+
     fun startAnalysis(){
         viewModelScope.launch {
-            countDownTime = 10
+            squatCount = 0
+            incorrectSquats = 0
+            sessionDurationSeconds = 0
+            hasError = false
+            currentSquatHasError = false
+            exerciceStage = 0
+            countDownTime = 3 // 3 Segundos para começar
+
             while (countDownTime > 0){
                 delay(1000)
-                countDownTime --
+                countDownTime--
             }
             isRecording = true
+            sessionStartTime = System.currentTimeMillis()
         }
     }
+
+    fun stopAnalysis(onNavigateToSummary: () -> Unit) {
+        isRecording = false
+        if (sessionStartTime > 0) {
+            sessionDurationSeconds = ((System.currentTimeMillis() - sessionStartTime) / 1000).toInt()
+        }
+        onNavigateToSummary()
+    }
+
     fun processPose(landmarks: List<NormalizedLandmark>) {
-        if (!isRecording) return
-
         try {
-            val leftKneeAngke = calculateAngle(landmarks[23], landmarks[25], landmarks[27])
-            val rightKneeAngle = calculateAngle(landmarks[24], landmarks[26], landmarks[28])
-            val avgKnee = (leftKneeAngke + rightKneeAngle)/ 2
-
-            when (exerciceStage){
-                0 -> if (avgKnee < 140) exerciceStage = 1
-                1 -> {
-                    if (avgKnee < 100){
-                        exerciceStage = 2
-                        hasError = false
-                    }
-                }
-                2 -> if (avgKnee < 160){
-                    squatCount++
-                    exerciceStage = 0
-                }
+            // 1. VERIFICA ENQUADRAMENTO (Testa se o Nariz e os Tornozelos estão dentro do vídeo)
+            if (landmarks.size > 28) {
+                val nose = landmarks[0]
+                val leftAnkle = landmarks[27]
+                val rightAnkle = landmarks[28]
+                isFullyFramed = (nose.y() in 0.0f..1.0f) && (leftAnkle.y() in 0.0f..1.0f) && (rightAnkle.y() in 0.0f..1.0f)
+            } else {
+                isFullyFramed = false
             }
+
+            // Só analisa o agachamento se estiver a gravar
+            if (!isRecording) return
+
+            val leftKneeAngle = calculateAngle(landmarks[23], landmarks[25], landmarks[27])
+            val rightKneeAngle = calculateAngle(landmarks[24], landmarks[26], landmarks[28])
+            val avgKnee = (leftKneeAngle + rightKneeAngle) / 2
 
             val hipWidth = abs(landmarks[23].x() - landmarks[24].x())
             val kneeWidth = abs(landmarks[25].x() - landmarks[26].x())
 
-            if (kneeWidth < hipWidth * 0.8){
+            // 2. VERIFICAÇÃO DE ERRO NOS JOELHOS
+            val isKneesTooClose = kneeWidth < hipWidth * 0.85
+
+            if (isKneesTooClose) {
                 hasError = true
                 errorLocation = Offset(landmarks[25].x(), landmarks[25].y())
+
+                // NOVO: "Pane" imediata! Se os joelhos estão fechados e a pessoa tenta descer (ângulo menor que 160), condena a repetição.
+                if (avgKnee < 160) {
+                    currentSquatHasError = true
+                }
             } else {
                 hasError = false
+            }
+
+            // 3. CONTROLE DOS ESTÁGIOS
+            when (exerciceStage) {
+                0 -> {
+                    if (avgKnee < 130) {
+                        exerciceStage = 1
+                        currentSquatHasError = isKneesTooClose
+                    }
+                }
+                1 -> {
+                    if (isKneesTooClose) {
+                        currentSquatHasError = true
+                    }
+                    if (avgKnee < 85) {
+                        exerciceStage = 2
+                    } else if (avgKnee > 160) {
+                        incorrectSquats++
+                        exerciceStage = 0
+                        currentSquatHasError = false
+                    }
+                }
+                2 -> {
+                    if (isKneesTooClose) {
+                        currentSquatHasError = true
+                    }
+                    if (avgKnee > 160) {
+                        if (currentSquatHasError) {
+                            incorrectSquats++
+                        } else {
+                            squatCount++
+                        }
+                        exerciceStage = 0
+                        currentSquatHasError = false
+                    }
+                }
             }
         } catch (e: Exception) {
             Log.e("PI_MONITOR", "Erro na análise: ${e.message}")
         }
     }
-    /* fun processPose(landmarks: List<NormalizedLandmark>) {
-        // Log para confirmar que a função está sendo executada
-        Log.d("PI_MONITOR", "--- Nova captura recebida ---")
-
-        if (landmarks.size < 29) {
-            Log.e("PI_MONITOR", "Erro: Pontos insuficientes (precisamos até o 28).")
-            return
-        }
-
-        try {
-            // Ponto 24: Quadril, 26: Joelho, 28: Tornozelo
-            val angle = calculateAngle(landmarks[24], landmarks[26], landmarks[28])
-
-            // Monitoramento em tempo real no Logcat
-            Log.i("PI_MONITOR", "ANGULO: ${angle.toInt()} | STATUS: ${if(isSquatting) "Agachado" else "Em pé"} | TOTAL: $squatCount")
-
-            if (angle < 105.0) {
-                if (!isSquatting) Log.v("PI_MONITOR", "Evento: Detectou descida")
-                isSquatting = true
-            } else if (isSquatting && angle > 160.0) {
-                squatCount++
-                isSquatting = false
-                Log.v("PI_MONITOR", "Evento: Repetição completa!")
-            }
-        } catch (e: Exception) {
-            Log.e("PI_MONITOR", "Falha ao processar movimento: ${e.message}")
-        }
-    } */
 
     private fun calculateAngle(
         p1: NormalizedLandmark,
