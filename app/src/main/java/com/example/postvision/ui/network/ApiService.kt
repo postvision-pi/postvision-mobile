@@ -4,9 +4,9 @@ import com.example.postvision.ui.model.ExerciseReport
 import com.example.postvision.ui.model.LoginResponse
 import com.example.postvision.ui.model.UpdateUserRequest
 import com.example.postvision.ui.model.User
-import okhttp3.Credentials
 import retrofit2.http.*
 import retrofit2.Response
+import com.example.postvision.ui.model.SessionPayload
 
 interface ApiService{
     @GET("user")
@@ -36,4 +36,11 @@ interface ApiService{
         @Path("userId") userId: String,
         @Header("Authorization") token: String
     ): Response<List<ExerciseReport>>
+
+    @POST("session/")
+    suspend fun  saveTrainingSession(
+        @Header("Authorization") token: String,
+        @Body payload: SessionPayload
+    ): Response<Unit>
+
 }

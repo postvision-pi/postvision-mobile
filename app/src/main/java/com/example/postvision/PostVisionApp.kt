@@ -176,11 +176,14 @@ fun AppNavigation(mainViewModel: MainViewModel = viewModel()) {
 
         composable(NavRoutes.REGISTER) {
             WrapperRegister(
+                viewModel = mainViewModel,
                 onNavigateToLogin = {
                     navController.navigate(NavRoutes.LOGIN)
                 },
                 onNavigateToHome = {
-                    navController.navigate(NavRoutes.HOME)
+                    navController.navigate(NavRoutes.HOME) {
+                        popUpTo(NavRoutes.REGISTER) { inclusive = true }
+                    }
                 }
             )
         }

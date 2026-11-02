@@ -60,21 +60,21 @@ fun WrapperProfile(
     }
 
     PostVisionTheme {
-            Scaffold(
-                bottomBar = {
-                    BottomNavBar(
-                        selectedRoute = "profile",
-                        onNavigate = { route ->
-                            if (route == "home") {
-                                onBottomTabClick(NavRoutes.HOME)
-                            } else if (route == "stats") {
-                                onBottomTabClick(NavRoutes.STATISTICS)
-                            }
+        Scaffold(
+            bottomBar = {
+                BottomNavBar(
+                    selectedRoute = "profile",
+                    onNavigate = { route ->
+                        if (route == "home") {
+                            onBottomTabClick(NavRoutes.HOME)
+                        } else if (route == "stats") {
+                            onBottomTabClick(NavRoutes.STATISTICS)
                         }
-                    )
-                },
-                containerColor = MaterialTheme.colorScheme.onBackground
-            ) {innerPadding ->
+                    }
+                )
+            },
+            containerColor = MaterialTheme.colorScheme.onBackground
+        ) {innerPadding ->
             Surface(
                 modifier = Modifier
                     .fillMaxSize()
@@ -110,6 +110,10 @@ fun WrapperProfile(
                                 painter = painterResource(R.drawable.alter_graph),
                                 modifier = Modifier
                                     .size(24.dp)
+                                    .clickable(
+                                        enabled = !viewModel.isLoading,
+                                        onClick = { viewModel.isEditing = true }
+                                    )
                             )
                             Image(
                                 contentDescription = "Image from configuration",
@@ -238,21 +242,21 @@ fun WrapperProfile(
                             onValueChange = { viewModel.password = it }
                         )
 
-                        Button(
-                            onClick = {
-                                if (viewModel.isEditing) viewModel.updateUserProfile()
-                                else viewModel.isEditing = true
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(18.dp),
-                            enabled = !viewModel.isLoading,
-                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
-                        ) {
-                            if (viewModel.isLoading) {
-                                CircularProgressIndicator(color = MaterialTheme.colorScheme.onPrimary, modifier = Modifier.size(24.dp))
-                            } else {
-                                Text(if (viewModel.isEditing) "Salvar" else "Editar Perfil", color = MaterialTheme.colorScheme.background)
+                        // O botão só aparece no modo de edição (ativado pelo ícone de lápis no topo)
+                        if (viewModel.isEditing) {
+                            Button(
+                                onClick = { viewModel.updateUserProfile() },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(18.dp),
+                                enabled = !viewModel.isLoading,
+                                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+                            ) {
+                                if (viewModel.isLoading) {
+                                    CircularProgressIndicator(color = MaterialTheme.colorScheme.onPrimary, modifier = Modifier.size(24.dp))
+                                } else {
+                                    Text("Salvar", color = MaterialTheme.colorScheme.background)
+                                }
                             }
                         }
                     }

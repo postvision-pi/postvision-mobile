@@ -1,6 +1,7 @@
 package com.example.postvision.ui.screens
 
 import ProfileIconButton
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -29,6 +30,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,9 +46,21 @@ import com.example.postvision.MainViewModel
 import com.example.postvision.R
 import com.example.postvision.ui.components.BottomNavBar
 import com.example.postvision.ui.components.DonutChart
+import com.example.postvision.ui.model.SessionComment
+import com.example.postvision.ui.model.SessionPayload
+import com.example.postvision.ui.model.SessionReport
 import com.example.postvision.ui.navigation.NavRoutes
+import com.example.postvision.ui.network.RetrofitClient
 import com.example.postvision.ui.theme.PostVisionTheme
 import com.example.postvision.ui.theme.Raleway
+import kotlinx.coroutines.coroutineScope
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
+import kotlinx.coroutines.launch
+import com.example.postvision.ui.repository.UserRepository
+
 
 @Composable
 fun WrapperSessionSummary(
@@ -54,6 +69,8 @@ fun WrapperSessionSummary(
     onNavigateToChooseExercise: () -> Unit,
     onBottomTabClick: (String) -> Unit
 ) {
+    val userRepository = remember { UserRepository(RetrofitClient.apiService) }
+
     val correctReps = viewModel.squatCount
     val incorrectReps = viewModel.incorrectSquats
     val totalReps = correctReps + incorrectReps
@@ -69,6 +86,38 @@ fun WrapperSessionSummary(
     val formattedDuration = String.format("%d:%02d", durationMin, durationSec)
 
     val avgTime = if (totalReps > 0) String.format("%.1f", viewModel.sessionDurationSeconds.toFloat() / totalReps) else "0"
+
+    LaunchedEffect(Unit) {
+        val token = mainViewModel.authToken
+
+        if (token.isNotEmpty() && totalReps > 0){
+            val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+            sdf.timeZone = TimeZone.getTimeZone("UTC") as java.util.TimeZone
+            val currentDate = sdf.format(Date())
+
+            val payload = SessionPayload(
+                exerciseId = "6a0507b78138726235b94a9e",
+                date = currentDate,
+                durationInSeconds = viewModel.sessionDurationSeconds,
+                report = SessionReport(
+                    correctReps = correctReps,
+                    incorrectReps = incorrectReps,
+                    averageAccuracy = accuracy,
+                    comment = SessionComment(
+                        text = if (accuracy >= 80) "Excelente execução!" else "Pontos a melhorar..."
+                    )
+                ),
+                landmarksPath = "uploads/landmarks/mobile_session.jsonAA"
+            )
+
+            val isSaved = userRepository.saveTrainingSession(token, payload)
+            if (isSaved) {
+                Log.d("API_SAVE", "Sessão salva com sucesso no banco de dados!")
+            } else {
+                Log.e("API_SAVE", "Falha ao salvar a sessão.")
+            }
+        }
+    }
 
     PostVisionTheme {
         Scaffold(
