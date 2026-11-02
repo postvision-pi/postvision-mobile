@@ -16,5 +16,6 @@ data class SessionPayload(
     val date: String,
     val durationInSeconds: Int,
     val report: SessionReport,
-    val landmarksPath: String? = null
+    val landmarksPath: String? = null,
+    val userId: String? = null
 )

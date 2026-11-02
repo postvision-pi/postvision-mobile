@@ -107,8 +107,11 @@ fun WrapperSessionSummary(
                         text = if (accuracy >= 80) "Excelente execução!" else "Pontos a melhorar..."
                     )
                 ),
-                landmarksPath = "uploads/landmarks/mobile_session.jsonAA"
+                landmarksPath = "uploads/landmarks/mobile_session.jsonAA",
+                userId = mainViewModel.loggedUser?.id
             )
+
+            Log.d("API_SAVE", "Enviando sessão do userId=${payload.userId}")
 
             val isSaved = userRepository.saveTrainingSession(token, payload)
             if (isSaved) {
